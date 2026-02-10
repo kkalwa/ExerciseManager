@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:ExerciseManager.Views"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <Grid>
+   <!-- <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="auto" />
         </Grid.ColumnDefinitions>
@@ -16,5 +16,74 @@
         </Grid.RowDefinitions>
         <Label Content="LoginView"/>
         <Button Grid.Row="1" Content="UserPanel" Command="{Binding GoToUserPanelCommand}" />
+    </Grid>
+-->
+    <Grid>
+        <Grid.Resources>
+            <DataTrigger x:Key="FadeOutAnimation" Binding="{Binding Path=StartAnimation}" Value="True">
+                <DataTrigger.EnterActions>
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <DoubleAnimation 
+                            Storyboard.TargetProperty="Opacity"
+                             To="0" Duration="0:0:0.25"/>
+                        </Storyboard>
+                    </BeginStoryboard>
+                </DataTrigger.EnterActions>
+            </DataTrigger>
+        </Grid.Resources>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"></RowDefinition>
+            <RowDefinition></RowDefinition>
+        </Grid.RowDefinitions>
+
+        <Label Grid.Column="0" Grid.ColumnSpan="2" Content="{Binding TitleText}" FontSize="40" HorizontalAlignment="Center">
+            <Label.Style>
+                <Style>
+                    <Style.Triggers>
+                        <StaticResource ResourceKey="FadeOutAnimation"/>
+                    </Style.Triggers>
+                </Style>
+            </Label.Style>
+        </Label>
+
+
+        <StackPanel Grid.Column="0" Grid.Row="1">
+            <Label HorizontalContentAlignment="Right" Content="Podaj nazwę użytkownika:"/>
+            <Label HorizontalContentAlignment="Right" Content="Podaj haslo:"/>
+
+        </StackPanel>
+
+        <StackPanel Grid.Column="1" Grid.Row="1">
+            <TextBox Margin="5" Text="{Binding Login}"/>
+            <TextBox Margin="5" Text="{Binding Login}"/>
+            <Button Margin="5" Height="20" Content="Zapisz" Command="{Binding ButtonCommand}"/>
+            <Label HorizontalAlignment="Left" Content="{Binding LoginStatus}"/>
+            <Label  Content="...lub utwórz nowy profil" HorizontalAlignment="Center"/>
+            <Button  Height="20" Width="100" Content="Stwórz profil" HorizontalAlignment="Center"
+                Command="{Binding CreateProfileCommand}">
+                <Button.Triggers>
+                    <EventTrigger RoutedEvent="Button.Click">
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <DoubleAnimation Storyboard.TargetName="TestRectangle"
+                                            Storyboard.TargetProperty="Opacity"
+                                            From="1" To="0" Duration="0:0:0.25"/>
+                            </Storyboard>
+                        </BeginStoryboard>
+
+                    </EventTrigger>
+
+                </Button.Triggers>
+            </Button>
+            <Rectangle Name="TestRectangle" Height="15" Fill="LightGray">
+
+            </Rectangle>
+        </StackPanel>
     </Grid>
 </UserControl>
