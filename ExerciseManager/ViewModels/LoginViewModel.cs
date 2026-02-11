@@ -25,6 +25,7 @@ namespace ExerciseManager.ViewModels
             get { return login ?? string.Empty; }
             set { login = value; }
         }
+        public string Password { get; set; } = string.Empty;
         public string LoginStatus
         {
             get { return loginStatus ?? String.Empty; }
@@ -46,10 +47,22 @@ namespace ExerciseManager.ViewModels
         public string TitleText { get; } = "Zaloguj się";
         public RelayCommand GoToUserPanelCommand { get; set; } //**************************************************** Remove later *****************************
         public ICommand InitiateLogInProcessCommand { get; set; }
+        public ICommand CreateProfileCommand { get; set; }
 
+        /** Functions associated with RelayCommands
+         * 
+         * */
+        private void GoToCreateNewProfile(object obj)
+        {
+            viewMediator.ChangeViewTo(new CreateNewProfileViewModel(viewMediator));
+        }
+
+        /** Constructor
+         * 
+         * */
         public LoginViewModel(ViewMediator viewMediator): base(viewMediator)
         {
-            
+            CreateProfileCommand = new RelayCommand(GoToCreateNewProfile);
         }
 
 

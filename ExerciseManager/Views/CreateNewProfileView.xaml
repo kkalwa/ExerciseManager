@@ -1,0 +1,33 @@
+﻿<UserControl x:Class="ExerciseManager.Views.CreateNewProfileView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:ExerciseManager.Views"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Label Grid.ColumnSpan="2" Content="Utwórz użytkownika" FontSize="40" HorizontalAlignment="Center"/>
+        <StackPanel Grid.Column="0" Grid.Row="1">
+            <Label HorizontalContentAlignment="Right" Content="Podaj nazwę użytkownika:"/>
+            <Label HorizontalContentAlignment="Right" Content="Podaj haslo:"/>
+            <Label HorizontalContentAlignment="Right" Content="Powtórz hasło"/>
+        </StackPanel>
+
+        <StackPanel Grid.Column="1" Grid.Row="1">
+            <TextBox Margin="5" Text="{Binding NewUserLogin, UpdateSourceTrigger=PropertyChanged}"/>
+            <TextBox Margin="5" Text="{Binding NewUserPassword, UpdateSourceTrigger=PropertyChanged}"/>
+            <TextBox Margin="5" Text="{Binding NewUserPasswordRepeated, UpdateSourceTrigger=PropertyChanged}"/>
+            <Button Margin="5" Content="Zatwierdź" Command="{Binding ConfirmCreatingProfileCommand}"/>
+            <Button Margin="5" Content="Powrót" Command="{Binding CancelCommand}"/>
+        </StackPanel>
+    </Grid>
+</UserControl>

@@ -61,7 +61,7 @@
 
         <StackPanel Grid.Column="1" Grid.Row="1">
             <TextBox Margin="5" Text="{Binding Login}"/>
-            <TextBox Margin="5" Text="{Binding Login}"/>
+            <TextBox Margin="5" Text="{Binding Password}"/>
             <Button Margin="5" Height="20" Content="Zaloguj" Command="{Binding InitiateLogInProcessCommand}"/>
             <Label HorizontalAlignment="Left" Content="{Binding LoginStatus}"/>
             <Label  Content="...lub utwórz nowy profil" HorizontalAlignment="Center"/>
