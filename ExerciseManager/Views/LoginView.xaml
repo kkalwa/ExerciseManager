@@ -67,23 +67,8 @@
             <Label  Content="...lub utwórz nowy profil" HorizontalAlignment="Center"/>
             <Button  Height="20" Width="100" Content="Stwórz profil" HorizontalAlignment="Center"
                 Command="{Binding CreateProfileCommand}">
-                <Button.Triggers>
-                    <EventTrigger RoutedEvent="Button.Click">
-                        <BeginStoryboard>
-                            <Storyboard>
-                                <DoubleAnimation Storyboard.TargetName="TestRectangle"
-                                            Storyboard.TargetProperty="Opacity"
-                                            From="1" To="0" Duration="0:0:0.25"/>
-                            </Storyboard>
-                        </BeginStoryboard>
-
-                    </EventTrigger>
-
-                </Button.Triggers>
             </Button>
-            <Rectangle Name="TestRectangle" Height="15" Fill="LightGray">
-
-            </Rectangle>
+            
         </StackPanel>
     </Grid>
 </UserControl>

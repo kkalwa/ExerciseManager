@@ -2,6 +2,7 @@
 using ExerciseManager.Mediators;
 using System;
 using System.Collections.Generic;
+using System.Security;
 using System.Text;
 using System.Windows.Input;
 
@@ -13,8 +14,8 @@ namespace ExerciseManager.ViewModels
          * 
          **/
         public string NewUserLogin { get; set; } = string.Empty;
-        public string NewUserPassword { get; set; } = string.Empty;
-        public string NewUserPasswordRepeated { get; set; } = string.Empty;
+        public SecureString NewUserPassword { get; set; } = new();
+        public SecureString NewUserPasswordRepeated { get; set; } = new();
         public ICommand ConfirmCreatingProfileCommand { get; set; }
         public ICommand CancelCommand { get; set; }
 
@@ -28,9 +29,8 @@ namespace ExerciseManager.ViewModels
         private bool CheckIfFormIsFilled(object sender)
         {
             return !string.IsNullOrEmpty(NewUserLogin) &&
-                   !string.IsNullOrEmpty(NewUserPassword) &&
-                   !string.IsNullOrEmpty(NewUserPasswordRepeated) &&
-                   NewUserPassword == NewUserPasswordRepeated;
+                   (NewUserPassword.Length > 0) &&
+                   (NewUserPasswordRepeated.Length > 0);
         }
         private void Cancel(object sender)
         {

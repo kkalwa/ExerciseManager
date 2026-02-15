@@ -7,7 +7,7 @@ using System.Text;
 
 namespace ExerciseManager.ViewModels
 {
-    public class BaseViewModel : INotifyPropertyChanged
+    public abstract class BaseViewModel : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler? PropertyChanged;
         protected ViewMediator viewMediator;
