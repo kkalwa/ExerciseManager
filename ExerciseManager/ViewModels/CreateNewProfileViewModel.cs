@@ -1,9 +1,12 @@
 ﻿using ExerciseManager.Commands;
 using ExerciseManager.Mediators;
+using Microsoft.AspNetCore.Cryptography.KeyDerivation;
 using System;
 using System.Collections.Generic;
 using System.Security;
+using System.Security.Cryptography;
 using System.Text;
+using System.Windows.Controls;
 using System.Windows.Input;
 
 namespace ExerciseManager.ViewModels
@@ -37,11 +40,24 @@ namespace ExerciseManager.ViewModels
                 viewMediator.ChangeViewTo(new LoginViewModel(viewMediator));
         }
 
-
+        private byte[] salt = RandomNumberGenerator.GetBytes(32);
         public CreateNewProfileViewModel(ViewMediator viewMediator): base(viewMediator)
         {
             ConfirmCreatingProfileCommand = new RelayCommand(ConfirmCreatingProfile, CheckIfFormIsFilled);
             CancelCommand = new RelayCommand(Cancel);
+        }
+
+        private void OnPasswordChanged(object sender, TextChangedEventArgs e)
+        {
+            if (sender != null)
+            {
+                byte[] encrypted = KeyDerivation.Pbkdf2(
+                        password: (sender as TextBox).Text,
+                        salt: this.salt,
+                        prf: KeyDerivationPrf.HMACSHA512,
+                        iterationCount: 100,
+                        numBytesRequested: 64);
+            }
         }
     }
 }

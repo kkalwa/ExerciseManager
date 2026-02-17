@@ -27,9 +27,9 @@
             <TextBox Margin="5" Text="{Binding NewUserLogin, UpdateSourceTrigger=PropertyChanged}"/>
             <custom_controls:CustomPasswordBox Margin="5" Password="{Binding NewUserPassword, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
             <custom_controls:CustomPasswordBox Margin="5" Password="{Binding NewUserPasswordRepeated, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
-            <!-- <TextBox Margin="5" Text="{Binding NewUserPassword, UpdateSourceTrigger=PropertyChanged}"/>
-            <TextBox Margin="5" Text="{Binding NewUserPasswordRepeated, UpdateSourceTrigger=PropertyChanged}"/>
-            <PasswordBox Margin="5" Password="{Binding NewUserPassword, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>-->
+            <!--<TextBox Margin="5" TextChanged="OnPasswordChanged"/>
+            <TextBox Margin="5" TextChanged="OnPasswordRepeatedChanged"/>-->
+            
             <Button Margin="5" Content="Zatwierdź" Command="{Binding ConfirmCreatingProfileCommand}"/>
             <Button Margin="5" Content="Powrót" Command="{Binding CancelCommand}"/>
         </StackPanel>

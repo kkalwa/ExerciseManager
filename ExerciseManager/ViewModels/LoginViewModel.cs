@@ -1,7 +1,11 @@
 ﻿using ExerciseManager.Commands;
 using ExerciseManager.Mediators;
+using ExerciseManager.Models;
+using ExerciseManager.Repositories;
 using System;
 using System.Collections.Generic;
+using System.Net;
+using System.Security.Principal;
 using System.Text;
 using System.Windows.Input;
 
@@ -10,6 +14,13 @@ namespace ExerciseManager.ViewModels
     
     public class LoginViewModel: BaseViewModel
     {
+
+        /** Fields not associated with properties
+         * 
+         */
+        private IUserRepository userRepository;
+
+
         /** Private fields associated with properties
          * 
          **/
@@ -56,13 +67,29 @@ namespace ExerciseManager.ViewModels
         {
             viewMediator.ChangeViewTo(new CreateNewProfileViewModel(viewMediator));
         }
+        private void InitiateLoginProcess(object obj)
+        {
+            var isValidUser = userRepository.AuthenticateUser(new NetworkCredential(Login, Password));
+
+            if (isValidUser)
+            {
+                Thread.CurrentPrincipal = new GenericPrincipal(new GenericIdentity(Login), null);
+                viewMediator.ChangeViewTo(new UserPanelViewModel(viewMediator));
+            }
+            else
+            {
+            }
+        }
 
         /** Constructor
          * 
          * */
         public LoginViewModel(ViewMediator viewMediator): base(viewMediator)
         {
+            userRepository = new UserRepository();
+            
             CreateProfileCommand = new RelayCommand(GoToCreateNewProfile);
+            InitiateLogInProcessCommand = new RelayCommand(InitiateLoginProcess);
         }
 
 
