@@ -8,6 +8,13 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
+        <Grid.Background>
+            <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                <GradientStop Color="Peru"  Offset="0"/>
+                <GradientStop Color="Orange" Offset="1"/>
+            </LinearGradientBrush>
+        </Grid.Background>
+        
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
@@ -23,13 +30,19 @@
             <Label HorizontalContentAlignment="Right" Content="Powtórz hasło"/>
         </StackPanel>
 
+        <Image Grid.Column="0" Grid.Row="1" 
+       Opacity="1" 
+       HorizontalAlignment="Center"
+        VerticalAlignment="Center"
+       Source="/Images/Sizif-removebg-preview.png"/>
+        
         <StackPanel Grid.Column="1" Grid.Row="1">
             <TextBox Margin="5" Text="{Binding NewUserLogin, UpdateSourceTrigger=PropertyChanged}"/>
-            <custom_controls:CustomPasswordBox Margin="5" Password="{Binding NewUserPassword, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
-            <custom_controls:CustomPasswordBox Margin="5" Password="{Binding NewUserPasswordRepeated, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
-            <!--<TextBox Margin="5" TextChanged="OnPasswordChanged"/>
-            <TextBox Margin="5" TextChanged="OnPasswordRepeatedChanged"/>-->
-            
+            <!--<custom_controls:CustomPasswordBox Margin="5" Password="{Binding NewUserPassword, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+            <custom_controls:CustomPasswordBox Margin="5" Password="{Binding NewUserPasswordRepeated, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>-->
+            <TextBox Margin="5" Text="{Binding NewUserPassword, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+            <TextBox Margin="5" Text="{Binding NewUserPasswordRepeated, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+            <TextBlock Margin="5" Foreground="Red" Text="{Binding ErrorString}"/>
             <Button Margin="5" Content="Zatwierdź" Command="{Binding ConfirmCreatingProfileCommand}"/>
             <Button Margin="5" Content="Powrót" Command="{Binding CancelCommand}"/>
         </StackPanel>

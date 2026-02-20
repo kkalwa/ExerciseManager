@@ -55,7 +55,7 @@ namespace ExerciseManager.ViewModels
                 OnPropertyChanged();
             }
         }
-        public string TitleText { get; } = "Zaloguj się";
+        //public string TitleText { get; } = "Zaloguj się";
         public RelayCommand GoToUserPanelCommand { get; set; } //**************************************************** Remove later *****************************
         public ICommand InitiateLogInProcessCommand { get; set; }
         public ICommand CreateProfileCommand { get; set; }
@@ -73,7 +73,8 @@ namespace ExerciseManager.ViewModels
 
             if (isValidUser)
             {
-                Thread.CurrentPrincipal = new GenericPrincipal(new GenericIdentity(Login), null);
+                //Thread.CurrentPrincipal = new GenericPrincipal(new GenericIdentity(Login), null);
+                viewMediator.CurrentUser = userRepository.GetByUsername(Login);
                 viewMediator.ChangeViewTo(new UserPanelViewModel(viewMediator));
             }
             else
