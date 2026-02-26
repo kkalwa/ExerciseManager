@@ -1,5 +1,4 @@
-﻿using ExerciseManager.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Windows;
@@ -15,15 +14,13 @@ using System.Windows.Shapes;
 namespace ExerciseManager.Views
 {
     /// <summary>
-    /// Interaction logic for ManageExercisesView.xaml
+    /// Interaction logic for ExerciseSetView.xaml
     /// </summary>
-    public partial class ManageExercisesView : UserControl
+    public partial class ExerciseSetView : UserControl
     {
-        public ManageExercisesView()
+        public ExerciseSetView()
         {
             InitializeComponent();
-            
         }
-        
     }
 }

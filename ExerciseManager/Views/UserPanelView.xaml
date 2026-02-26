@@ -30,7 +30,7 @@
         <Button Grid.Column="2" Grid.Row="0" Margin="5" Content="Wyloguj się" Padding="5" Command="{Binding LogOutCommand}"/>
        <!-- <UserControl Grid.Column="1" Grid.Row="1" Margin="5" Content="{Binding CurrentUserManageExercises, Mode=TwoWay}"/>
         <UserControl Grid.Column="1" Grid.Row="1" Margin="5" Content="{Binding CurrentUserHistory}"/>-->
-        <ContentControl Grid.Column="1" Grid.Row="1" Content="{Binding CurrentUserControl}" >
+        <ContentControl Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="2" Content="{Binding CurrentUserControl}" >
             <ContentControl.Resources>
                 <DataTemplate DataType="{x:Type viewmodels:ManageExercisesViewModel}">
                     <local:ManageExercisesView/>
