@@ -10,6 +10,7 @@ namespace ExerciseManager.Mediators
     {
         public UserModel CurrentUser { get; set; } = new UserModel();
         public event Action<BaseViewModel> ViewChanged;
+        public IViewModelParent ViewModelParent {  get; set; }
         public void ChangeViewTo(BaseViewModel newView)
         {
                        ViewChanged?.Invoke(newView);

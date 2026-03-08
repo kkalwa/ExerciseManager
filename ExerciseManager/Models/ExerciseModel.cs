@@ -1,15 +1,36 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
 using System.Text;
 
 namespace ExerciseManager.Models
 {
-    public class ExerciseModel
+    public class ExerciseModel: INotifyPropertyChanged
     {
         private static readonly int maxWeights = 5;
-        public string IdExercise { get; set; }
-        public string IdExerciseSet { get; set; }
-        public string ExerciseName { get; set; }
-        public string[] ExerciseWeights { get; set; } = new string[maxWeights];
+        public string IdExercise { get; set; } = string.Empty;
+        public string IdExerciseSet { get; set; } = string.Empty;
+        public string ExerciseName { get; set; } = string.Empty;
+        public ObservableCollection<String> exerciseWeights = new();
+        public ObservableCollection<String> ExerciseWeights
+        {
+            get { return exerciseWeights; }
+            set { exerciseWeights = value; OnPropertyChanged(); }
+        }
+
+        public event PropertyChangedEventHandler? PropertyChanged;
+        public void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+        public ExerciseModel() 
+        {
+                for (int i = 0; i < maxWeights; i++)
+                {
+                    ExerciseWeights.Add("10");
+            }
+        }
     }
 }

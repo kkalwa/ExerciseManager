@@ -1,9 +1,11 @@
-﻿using ExerciseManager.Mediators;
+﻿using ExerciseManager.Commands;
+using ExerciseManager.Mediators;
 using ExerciseManager.Models;
 using ExerciseManager.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Windows.Input;
 
 namespace ExerciseManager.ViewModels
 {
@@ -28,11 +30,25 @@ namespace ExerciseManager.ViewModels
                 OnPropertyChanged();
             }
         }
+
+        private List<ExerciseSetModel> outputList;
+
+        public List<ExerciseSetModel> OutputList 
+        {
+            get { return outputList; }
+            set { outputList = value; 
+                OnPropertyChanged(); 
+            }
+        }
+
+        public ICommand OpenAddNewSetCommand { get; set; }
+
         private IDBRepository DBRepository { get; set; }
 
         public ManageExercisesViewModel(ViewMediator viewMediator): base(viewMediator)
         {
             DBRepository = new DBRepository();
+            OpenAddNewSetCommand = new RelayCommand( (o) => { viewMediator.ViewModelParent.ChangeChildViewModel("CreateNewSetViewModel"); });
             List<ManageExercisesModel> list = DBRepository.GetExercisesBasedOnUserId(viewMediator.CurrentUser.Id);
             List<string> listOfSetIds = DBRepository.GetDistinctIdSetsForUser(viewMediator.CurrentUser.Id);
             List<ExerciseSetModel> listOfExerciseSets = new();
@@ -58,8 +74,8 @@ namespace ExerciseManager.ViewModels
                 }
                 listOfExerciseSets.Add(newEntry);
             }
-            
-           
+
+            OutputList = listOfExerciseSets;
         }
     }
 }

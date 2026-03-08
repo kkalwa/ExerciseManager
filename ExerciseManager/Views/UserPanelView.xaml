@@ -38,7 +38,9 @@
                 <DataTemplate DataType="{x:Type viewmodels:HistoryViewModel}">
                     <local:HistoryView/>
                 </DataTemplate>
-                
+                <DataTemplate DataType="{x:Type viewmodels:CreateNewSetViewModel}">
+                    <local:CreateNewSetView/>
+                </DataTemplate>
             </ContentControl.Resources>
         </ContentControl>
         <StackPanel Grid.Column="0" Grid.Row="1">

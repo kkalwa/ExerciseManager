@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Text;
 
 
@@ -10,7 +11,7 @@ namespace ExerciseManager.Models
         public string IdExerciseSet { get; set; }
         public string IdUser { get; set; }
         public string ExerciseSetTitle { get; set; }
-        public List<ExerciseModel> Exercises { get; set; } = new();
+        public List<ExerciseModel> Exercises { get; set; } = new List<ExerciseModel>();
 
         public override string ToString()
         {

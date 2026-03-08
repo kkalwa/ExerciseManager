@@ -10,7 +10,8 @@ using System.Windows.Input;
 
 namespace ExerciseManager.ViewModels
 {
-    public class UserPanelViewModel: BaseViewModel
+    public class UserPanelViewModel: BaseViewModel,
+        IViewModelParent
     {
         /** Fields not associated with properties
          * 
@@ -24,9 +25,14 @@ namespace ExerciseManager.ViewModels
         private BaseViewModel currentUserControl;
         private String currentUserName;
         private String currentUserId;
+
+        
+
+
+
         /**Properties
-         * 
-         * */
+* 
+* */
         public UserControl CurrentUserManageExercises
         {
             get { return currentUserManageExercises; }
@@ -80,17 +86,36 @@ namespace ExerciseManager.ViewModels
 
         private void CheckHistory(object obj)
         {
+            viewMediator.ViewModelParent = this;
             CurrentUserControl = new HistoryViewModel(viewMediator);
         }
 
         private void ManageExercises(object obj)
         {
+            viewMediator.ViewModelParent = this;
             CurrentUserControl = new ManageExercisesViewModel(viewMediator);
         }
 
         private void LogOut(object obj)
         {
+            viewMediator.ViewModelParent = null;
             viewMediator.ChangeViewTo(new LoginViewModel(viewMediator));
+        }
+
+        public void ChangeChildViewModel(string nameOfNewViewModel)
+        {
+            switch(nameOfNewViewModel)
+            {
+                case "ManageExercisesViewModel":
+                    CurrentUserControl = new ManageExercisesViewModel(viewMediator);
+                    break;
+                case "HistoryViewModel":
+                    CurrentUserControl = new HistoryViewModel(viewMediator);
+                    break;
+                case "CreateNewSetViewModel":
+                    CurrentUserControl = new CreateNewSetViewModel(viewMediator);
+                    break;
+            }
         }
     }
 }

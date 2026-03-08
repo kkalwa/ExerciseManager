@@ -6,12 +6,9 @@
              xmlns:local="clr-namespace:ExerciseManager.Views"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <!--<WrapPanel x:Name="container" Orientation="horizontal" Height="100" VerticalAlignment="Top">
-        <Button Content="Add Exercise" Margin="5" Padding="10,5" Click="btnNewElement"/>
-        
-    </WrapPanel>-->
-    
-    <ItemsControl  ItemsSource="{Binding ListOfUserSets}">
+    <StackPanel>
+        <Button Content="Dodaj nowy zestaw ćwiczeń" Margin="10" Padding="5"  HorizontalAlignment="Left" Command="{Binding OpenAddNewSetCommand}"/>
+        <ItemsControl ItemsSource="{Binding OutputList}" BorderThickness="3">
         <ItemsControl.ItemsPanel>
             <ItemsPanelTemplate>
                 <WrapPanel Orientation="Horizontal" />
@@ -19,17 +16,19 @@
         </ItemsControl.ItemsPanel>
         <ItemsControl.ItemTemplate>
             <DataTemplate>
-                <WrapPanel
-                    Background="AliceBlue">
-                    <Button Content="{Binding ExerciseSetTitle}"></Button>
-                    <Separator/>
-                </WrapPanel>
+                <StackPanel Background="AliceBlue"
+                            Margin="10">
+                    <TextBlock Text="{Binding ExerciseSetTitle}" Background="DarkOrange" TextAlignment="Center" FontSize="14" FontWeight="SemiBold"/>
+                    <ItemsControl ItemsSource="{Binding Exercises}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding ExerciseName}"/>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </StackPanel>
             </DataTemplate>
         </ItemsControl.ItemTemplate>
     </ItemsControl>
-
-    <!--<ListBox ItemsSource="{Binding ListOfUserSets}">
-        <Button Content="{Binding ExerciseSetTitle}"/>
-    </ListBox>-->
-    
+    </StackPanel>
 </UserControl>
