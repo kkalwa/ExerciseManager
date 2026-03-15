@@ -6,6 +6,10 @@ namespace ExerciseManager.Models
 {
     public interface IViewModelParent
     {
-        public void ChangeChildViewModel(string nameOfNewViewModel); 
+        public void ChangeChildViewModel(string nameOfNewViewModel);
+        public void StoreDataFromChildViewModel(string nameOfData, object data);
+        public object RetrieveData(string nameOfData);
+        public void DeleteData(string nameOfData);
+
     }
 }

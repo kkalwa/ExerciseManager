@@ -14,8 +14,6 @@ namespace ExerciseManager.Models
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
-
-        //String value to change
         public string Value
         {
             get { return field; }

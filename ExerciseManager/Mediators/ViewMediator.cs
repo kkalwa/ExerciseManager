@@ -15,6 +15,18 @@ namespace ExerciseManager.Mediators
         {
                        ViewChanged?.Invoke(newView);
         }
+        public void StoreData(string nameOfData, object data)
+        {
+            ViewModelParent.StoreDataFromChildViewModel(nameOfData, data);
+        }
+        public object RetrieveData(string nameOfData)
+        {
+            return ViewModelParent.RetrieveData(nameOfData);
+        }
+        public void DeleteData(string nameOfData)
+        {
+            ViewModelParent.DeleteData(nameOfData);
+        }
 
         public ViewMediator()
         { 

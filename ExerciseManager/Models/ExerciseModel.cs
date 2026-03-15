@@ -13,8 +13,8 @@ namespace ExerciseManager.Models
         public string IdExercise { get; set; } = string.Empty;
         public string IdExerciseSet { get; set; } = string.Empty;
         public string ExerciseName { get; set; } = string.Empty;
-        public ObservableCollection<String> exerciseWeights = new();
-        public ObservableCollection<String> ExerciseWeights
+        public ObservableCollection<MutableStringValue> exerciseWeights = new();
+        public ObservableCollection<MutableStringValue> ExerciseWeights
         {
             get { return exerciseWeights; }
             set { exerciseWeights = value; OnPropertyChanged(); }
@@ -29,7 +29,7 @@ namespace ExerciseManager.Models
         {
                 for (int i = 0; i < maxWeights; i++)
                 {
-                    ExerciseWeights.Add("10");
+                    ExerciseWeights.Add(new MutableStringValue("10"));
             }
         }
     }

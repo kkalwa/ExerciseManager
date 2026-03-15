@@ -41,11 +41,18 @@
                 <DataTemplate DataType="{x:Type viewmodels:CreateNewSetViewModel}">
                     <local:CreateNewSetView/>
                 </DataTemplate>
+                <DataTemplate DataType="{x:Type viewmodels:ManageTrainingsViewModel}">
+                    <local:ManageTrainingsView/>
+                </DataTemplate>
+                <DataTemplate DataType="{x:Type viewmodels:CurrentTrainingViewModel}">
+                    <local:CurrentTrainingView/>
+                </DataTemplate>
             </ContentControl.Resources>
         </ContentControl>
         <StackPanel Grid.Column="0" Grid.Row="1">
             <Button Content="Zarządzaj ćwiczeniami" Margin="5" Command="{Binding ManageExercisesCommand}"/>
             <Button Content="Historia" Margin="5" Command="{Binding CheckHistoryCommand}"/>
+            <Button Content="Dodaj trening" Margin="5" Command="{Binding AddNewTrainingCommand}"/>
         </StackPanel>
     </Grid>
 </UserControl>

@@ -32,6 +32,7 @@
         <TextBlock Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Right" TextAlignment="Center" FontSize="12" Margin="10" Text="Wprowadź nazwę zestawu ćwiczeń"/>
         <TextBlock Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" VerticalAlignment ="Bottom" HorizontalAlignment="Right" TextAlignment="Center" FontSize="12" Margin="10" Text="Wprowadź ćwiczenia do zestawu"/>
         <TextBox Grid.Row="1" Grid.Column="2"  Margin="10" VerticalAlignment="Top"  Text="{Binding ExerciseSetTitle, Mode=TwoWay}"/>
+        <TextBlock Grid.Row="1" Grid.Column="3" Foreground="DarkRed" Text="{Binding SQLResultText}"/>
 
 
         <StackPanel Grid.Row="2" Orientation="Horizontal" VerticalAlignment="Bottom" Grid.ColumnSpan="7">
@@ -57,7 +58,7 @@
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate>
                                     <StackPanel>
-                                        <TextBox Width="30"  Text="{Binding Path=. , Mode=TwoWay}"/>
+                                        <TextBox Width="30"  Text="{Binding Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                                         <!-- Path=. Not really sure if this is the right way to bind -->
                                     </StackPanel>
                                 </DataTemplate>

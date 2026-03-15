@@ -157,7 +157,7 @@ namespace ExerciseManager.Repositories
             return output;
         }
 
-        public void InsertNewExerciseSet(ExerciseSetModel newSet)
+        public SQLResults InsertNewExerciseSet(ExerciseSetModel newSet)
         {
             using (var connection = GetConnection())
             using (var command = new SqlCommand())
@@ -168,11 +168,19 @@ namespace ExerciseManager.Repositories
                 command.Parameters.Add("@id_user", SqlDbType.Int).Value = Int32.Parse(newSet.IdUser);
                 command.Parameters.Add("@title", SqlDbType.NVarChar).Value = newSet.ExerciseSetTitle;
                 int rowsAffected = command.ExecuteNonQuery();
+                if (rowsAffected < 1)
+                {
+                    return SQLResults.Failure;
+                }
                 
                 command.CommandText = "SELECT Id_ExerciseSet FROM dbo.ExerciseSet WHERE Id_user=@id_user AND Title=@title";
                 //command.Parameters.Add("@id_user", SqlDbType.Int).Value = Int32.Parse(newSet.ExerciseSetTitle);
                 //command.Parameters.Add("@title", SqlDbType.NVarChar).Value = newSet.ExerciseSetTitle;
                 Int32 exerciseSetId = (Int32)command.ExecuteScalar();
+                if (exerciseSetId == null)
+                {
+                    return SQLResults.Failure;
+                }
                 command.Parameters.Clear();
 
                 SqlTransaction transaction = connection.BeginTransaction();
@@ -192,11 +200,11 @@ namespace ExerciseManager.Repositories
                     foreach (var element in newSet.Exercises)
                     {
                         command.Parameters["@exercise_name"].Value = element.ExerciseName;
-                        command.Parameters["@weight1"].Value = Double.Parse(element.ExerciseWeights[0], usCulture);
-                        command.Parameters["@weight2"].Value = Double.Parse(element.ExerciseWeights[1], usCulture);
-                        command.Parameters["@weight3"].Value = Double.Parse(element.ExerciseWeights[2], usCulture);
-                        command.Parameters["@weight4"].Value = Double.Parse(element.ExerciseWeights[3], usCulture);
-                        command.Parameters["@weight5"].Value = Double.Parse(element.ExerciseWeights[4], usCulture);
+                        command.Parameters["@weight1"].Value = Double.Parse(element.ExerciseWeights[0].Value, usCulture);
+                        command.Parameters["@weight2"].Value = Double.Parse(element.ExerciseWeights[1].Value, usCulture);
+                        command.Parameters["@weight3"].Value = Double.Parse(element.ExerciseWeights[2].Value, usCulture);
+                        command.Parameters["@weight4"].Value = Double.Parse(element.ExerciseWeights[3].Value, usCulture);
+                        command.Parameters["@weight5"].Value = Double.Parse(element.ExerciseWeights[4].Value, usCulture);
                         
                         if(command.ExecuteNonQuery() == 0)
                         {
@@ -208,9 +216,12 @@ namespace ExerciseManager.Repositories
                 }catch(Exception e)
                 {
                     transaction.Rollback(); 
+                    return SQLResults.Failure;
                 }
                 connection.Close();
             }
+
+            return SQLResults.Success;
         }
     }
 }
