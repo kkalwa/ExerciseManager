@@ -67,6 +67,11 @@ namespace ExerciseManager.ViewModels
 
             return output;
         }
+
+        public void OnTreeViewDoubleClicked(TreeViewItem item)
+        {
+            
+        }
     }
     }
 

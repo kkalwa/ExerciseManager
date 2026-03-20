@@ -10,7 +10,7 @@
         <TextBlock Text="{Binding ErrorMessage}" FontSize="20" FontWeight="SemiBold" TextAlignment="Center"/>
         <!--<ListBox ItemsSource = "{Binding ExerciseSetsList}">
         </ListBox>-->
-        <TreeView ItemsSource="{Binding ExerciseSetsTreeView}"/>
+        <TreeView x:Name="tv_ExerciseSetListTree" MouseDoubleClick="OnDoubleClick" ItemsSource="{Binding ExerciseSetsTreeView}"/>
 
     </StackPanel>
 </UserControl>

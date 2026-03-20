@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ExerciseManager.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Windows;
@@ -21,6 +22,13 @@ namespace ExerciseManager.Views
         public CurrentTrainingView()
         {
             InitializeComponent();
+            //Loaded += OnLoaded;
+        }
+
+        public void OnDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            CurrentTrainingViewModel viewmodel = (CurrentTrainingViewModel)DataContext;
+            viewmodel.OnTreeViewDoubleClicked(tv_ExerciseSetListTree.SelectedItem as TreeViewItem);
         }
     }
 }

@@ -1,4 +1,3 @@
 <Solution>
-  <Project Path="../Gym/Gym/Gym.csproj" />
   <Project Path="ExerciseManager/ExerciseManager.csproj" />
 </Solution>
