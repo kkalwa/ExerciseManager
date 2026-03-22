@@ -1,10 +1,12 @@
-﻿using ExerciseManager.Mediators;
+﻿using ExerciseManager.Commands;
+using ExerciseManager.Mediators;
 using ExerciseManager.Models;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Text;
 using System.Windows.Controls;
+using System.Windows.Input;
 
 namespace ExerciseManager.ViewModels
 {
@@ -39,10 +41,14 @@ namespace ExerciseManager.ViewModels
                 OnPropertyChanged();
             }
         }
+
+        public ICommand TreeViewDoubleClickCommand { get; set; }
+
         public CurrentTrainingViewModel(ViewMediator viewMediator) : base(viewMediator)
         {
             ExerciseSetsList = RetrieveSelectedSets();
             ExerciseSetsTreeView = ToTreeViewItemConverter.ConvertToTreeViewItemList(exerciseSetsList);
+            TreeViewDoubleClickCommand = new RelayCommand(OnTreeViewDoubleClicked);
         }
 
         private ObservableCollection<ExerciseSetModel> RetrieveSelectedSets()
@@ -68,7 +74,7 @@ namespace ExerciseManager.ViewModels
             return output;
         }
 
-        public void OnTreeViewDoubleClicked(TreeViewItem item)
+        public void OnTreeViewDoubleClicked(object sender)
         {
             
         }
