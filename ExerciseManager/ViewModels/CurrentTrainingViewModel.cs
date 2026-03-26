@@ -22,13 +22,24 @@ namespace ExerciseManager.ViewModels
                 OnPropertyChanged();
             }
         }
+        private ObservableCollection<ExerciseSetModel> actualExercisesForTraining = [];
+        public ObservableCollection<ExerciseSetModel> ActualExercisesForTraining
+        {
+            get { return actualExercisesForTraining; }
+            set
+            {
+                actualExercisesForTraining = value;
+                OnPropertyChanged();
+            }
+        }
         private ObservableCollection<TreeViewItem> exerciseSetsTreeView;
         public ObservableCollection<TreeViewItem> ExerciseSetsTreeView
         {
             get { return exerciseSetsTreeView; }
             set
             {
-                exerciseSetsTreeView = value; OnPropertyChanged();
+                exerciseSetsTreeView = value; 
+                OnPropertyChanged();
             }
         }
         private string errorMessage = string.Empty;
@@ -41,7 +52,27 @@ namespace ExerciseManager.ViewModels
                 OnPropertyChanged();
             }
         }
+        private ExerciseSetModel selectedExerciseSet;
+        public ExerciseSetModel SelectedExerciseSet
+        {
+            get { return selectedExerciseSet; }
+            set
+            {
+                selectedExerciseSet = value;
+                OnPropertyChanged();
+            }
+        }
 
+        private ExerciseModel selectedExercise;
+        public ExerciseModel SelectedExercise
+        {
+            get { return selectedExercise; }
+            set
+            {
+                selectedExercise = value;
+                OnPropertyChanged();
+            }
+        }
         public ICommand TreeViewDoubleClickCommand { get; set; }
 
         public CurrentTrainingViewModel(ViewMediator viewMediator) : base(viewMediator)
@@ -76,7 +107,48 @@ namespace ExerciseManager.ViewModels
 
         public void OnTreeViewDoubleClicked(object sender)
         {
+            if(selectedSetIsAlreadyInCollection())
+            {
+                appendExerciseToExistingSet();
+            }else
+            {
+                addExerciseSetToCollection();
+                appendExerciseToExistingSet();
+            }
             
+        }
+
+        private bool selectedSetIsAlreadyInCollection()
+        {
+            foreach (var exerciseSet in ActualExercisesForTraining)
+            {
+                if (exerciseSet.ExerciseSetTitle == SelectedExerciseSet.ExerciseSetTitle)
+                    return true;
+            }
+            
+            return false;
+        }
+
+        private void appendExerciseToExistingSet()
+        {
+            foreach (var exerciseSet in ActualExercisesForTraining)
+            {
+                if (exerciseSet.ExerciseSetTitle == SelectedExerciseSet.ExerciseSetTitle)
+                {
+                    exerciseSet.Exercises.Add(SelectedExercise);
+                    break;
+                }
+            }
+        }
+
+        private void addExerciseSetToCollection()
+        {
+            ActualExercisesForTraining.Add(new ExerciseSetModel()
+            {
+                IdExerciseSet = SelectedExerciseSet.IdExerciseSet,
+                IdUser = SelectedExerciseSet.IdUser,
+                ExerciseSetTitle = SelectedExerciseSet.ExerciseSetTitle
+            });
         }
     }
     }

@@ -7,16 +7,73 @@
              xmlns:commands="clr-namespace:ExerciseManager.Commands"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <StackPanel HorizontalAlignment="Left" Width="300">
-        <TextBlock Text="{Binding ErrorMessage}" FontSize="20" FontWeight="SemiBold" TextAlignment="Center"/>
-        <!--<ListBox ItemsSource = "{Binding ExerciseSetsList}">
-        </ListBox>-->
-        <TreeView 
-            x:Name="tv_ExerciseSetListTree" 
-            commands:MouseDoubleClick.Command="{Binding TreeViewDoubleClickCommand}"
-            commands:MouseDoubleClick.CommandParameter="{Binding}"
-            ItemsSource="{Binding ExerciseSetsTreeView}"
-            />
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="100"/>
+        </Grid.RowDefinitions>
 
-    </StackPanel>
+        <StackPanel Grid.Row="0" Orientation="Horizontal">
+            <ListBox IsSynchronizedWithCurrentItem="True" ItemsSource="{Binding ExerciseSetsList}" SelectedItem="{Binding SelectedExerciseSet}">
+                <ListBox.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel Orientation="Horizontal">
+                        </StackPanel>
+                    </ItemsPanelTemplate>
+                </ListBox.ItemsPanel>
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Background="AliceBlue" Margin="10" Width="auto">
+                            <TextBlock Text="{Binding ExerciseSetTitle}" Background="DarkOrange" TextAlignment="Center" FontSize="14" FontWeight="SemiBold"/>
+                            <ItemsControl ItemsSource="{Binding Exercises}">
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding ExerciseName}" />
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </StackPanel>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+        </StackPanel>
+
+        <ListBox Grid.Row="1" 
+                 ItemsSource="{Binding SelectedExerciseSet.Exercises}" 
+                 commands:MouseDoubleClick.Command="{Binding TreeViewDoubleClickCommand}"
+                 SelectedItem="{Binding SelectedExercise}">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding ExerciseName}" />
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+
+        <ListBox Grid.Row="2"
+            ItemsSource="{Binding ActualExercisesForTraining}">
+            <ListBox.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <StackPanel Orientation="Horizontal">
+                    </StackPanel>
+                </ItemsPanelTemplate>
+            </ListBox.ItemsPanel>
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Background="AliceBlue" Margin="10" Width="auto">
+                        <TextBlock Text="{Binding ExerciseSetTitle}" Background="DarkOrange" TextAlignment="Center" FontSize="14" FontWeight="SemiBold"/>
+                        <ItemsControl ItemsSource="{Binding Exercises}">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding ExerciseName}" />
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </StackPanel>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+    </Grid>
+    
 </UserControl>
