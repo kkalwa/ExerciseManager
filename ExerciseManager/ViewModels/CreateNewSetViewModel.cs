@@ -64,7 +64,7 @@ namespace ExerciseManager.ViewModels
             {
                 IdUser = viewMediator.CurrentUser.Id,
                 ExerciseSetTitle = this.ExerciseSetTitle,
-                Exercises = new List<ExerciseModel>(this.Exercises)
+                Exercises = new ObservableCollection<ExerciseModel>(this.Exercises)
             };
 
             if (IsDataValid(newExerciseSet))

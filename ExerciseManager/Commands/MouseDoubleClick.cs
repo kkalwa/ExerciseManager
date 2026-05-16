@@ -62,7 +62,6 @@ namespace ExerciseManager.Commands
             Control control = sender as Control;
             ICommand command = (ICommand)control.GetValue(CommandProperty);
             object commandParameter = control.GetValue(CommandParameterProperty);
-            TreeView treeView = commandParameter as TreeView;
             command.Execute(commandParameter);
         }
     }

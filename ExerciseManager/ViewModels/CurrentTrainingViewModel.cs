@@ -107,18 +107,17 @@ namespace ExerciseManager.ViewModels
 
         public void OnTreeViewDoubleClicked(object sender)
         {
-            if(selectedSetIsAlreadyInCollection())
+            if(isSelectedSetAlreadyInCollection())
             {
                 appendExerciseToExistingSet();
             }else
             {
                 addExerciseSetToCollection();
                 appendExerciseToExistingSet();
-            }
-            
+            }   
         }
 
-        private bool selectedSetIsAlreadyInCollection()
+        private bool isSelectedSetAlreadyInCollection()
         {
             foreach (var exerciseSet in ActualExercisesForTraining)
             {
