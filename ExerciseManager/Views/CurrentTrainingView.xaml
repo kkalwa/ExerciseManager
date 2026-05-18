@@ -43,7 +43,7 @@
 
         <ListBox Grid.Row="1" 
                  ItemsSource="{Binding SelectedExerciseSet.Exercises}" 
-                 commands:MouseDoubleClick.Command="{Binding TreeViewDoubleClickCommand}"
+                  commands:MouseDoubleClick.Command="{Binding TreeViewDoubleClickCommand}"
                  SelectedItem="{Binding SelectedExercise}">
             <ListBox.ItemTemplate>
                 <DataTemplate>
@@ -77,7 +77,8 @@
         </ListBox>
 
         <TreeView Grid.Row="3"
-                  ItemsSource="{Binding ActualExercisesForTraining}">
+                  ItemsSource="{Binding ActualExercisesForTraining}"
+                   commands:MouseDoubleClickTreeView.Command="{Binding TreeViewDoubleClickExCommand}">
             <TreeView.ItemTemplate>
                 <HierarchicalDataTemplate ItemsSource="{Binding Exercises}">
                     <TextBlock Text="{Binding ExerciseSetTitle}" Background="DarkOrange" TextAlignment="Center" FontSize="14" FontWeight="SemiBold"/>

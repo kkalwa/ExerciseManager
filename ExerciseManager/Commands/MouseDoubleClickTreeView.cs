@@ -14,7 +14,14 @@ namespace ExerciseManager.Commands
             typeof(ICommand),
             typeof(MouseDoubleClickTreeView),
             new UIPropertyMetadata(CommandChanged));
-
+        public static void SetCommand(DependencyObject target, ICommand value)
+        {
+            target.SetValue(CommandProperty, value);
+        }
+        public static ICommand GetCommand(DependencyObject target)
+        {
+            return (ICommand)target.GetValue(CommandProperty);
+        }
         private static void CommandChanged(DependencyObject target, DependencyPropertyChangedEventArgs e)
         {
             TreeView control = target as TreeView;

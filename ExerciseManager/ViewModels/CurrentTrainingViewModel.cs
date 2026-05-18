@@ -74,12 +74,72 @@ namespace ExerciseManager.ViewModels
             }
         }
         public ICommand TreeViewDoubleClickCommand { get; set; }
+        public ICommand TreeViewDoubleClickExCommand { get; set;}
 
         public CurrentTrainingViewModel(ViewMediator viewMediator) : base(viewMediator)
         {
             ExerciseSetsList = RetrieveSelectedSets();
             ExerciseSetsTreeView = ToTreeViewItemConverter.ConvertToTreeViewItemList(exerciseSetsList);
             TreeViewDoubleClickCommand = new RelayCommand(OnTreeViewDoubleClicked);
+            TreeViewDoubleClickExCommand = new RelayCommand(OnTreeViewDoubleClickEx);
+        }
+
+        private void OnTreeViewDoubleClickEx(object obj)
+        {
+            if (obj is ExerciseModel)
+            {
+                //removeExerciseFromList(obj as ExerciseModel);
+                int index = findSetIndexByExercise(obj as ExerciseModel);
+                ActualExercisesForTraining[index].Exercises.Remove(obj as ExerciseModel);
+                if (ActualExercisesForTraining[index].Exercises.Count == 0)
+                {
+                    ActualExercisesForTraining.RemoveAt(index);
+                }
+            }
+            else if (obj is ExerciseSetModel)
+            {
+                removeEntireSetFromList(obj as ExerciseSetModel);
+            }
+        }
+
+        private int findSetIndexByExercise(ExerciseModel exerciseModel)
+        {
+            for(int i = 0; i < ActualExercisesForTraining.Count; i++)
+            {
+                if(ActualExercisesForTraining[i].Exercises.Contains(exerciseModel))
+                {
+                    return i;
+                }
+            }
+            return -1;
+        }
+
+        private void removeEntireSetFromList(ExerciseSetModel exerciseSetModel)
+        {
+            foreach(var exerciseSet in ActualExercisesForTraining)
+            {
+                if(exerciseSet == exerciseSetModel)
+                {
+                    ActualExercisesForTraining.Remove(exerciseSet);
+                    
+                    break;
+                }
+            }
+        }
+
+        private void removeExerciseFromList(ExerciseModel exerciseModel)
+        {
+            foreach(var exerciseSet in ActualExercisesForTraining)
+            {
+                foreach(var exercise in exerciseSet.Exercises)
+                {
+                    if(exercise == exerciseModel)
+                    {
+                        exerciseSet.Exercises.Remove(exercise);
+                        break;
+                    }
+                }
+            }
         }
 
         private ObservableCollection<ExerciseSetModel> RetrieveSelectedSets()
