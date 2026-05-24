@@ -52,31 +52,7 @@
             </ListBox.ItemTemplate>
         </ListBox>
 
-        <ListBox Grid.Row="2"
-            ItemsSource="{Binding ActualExercisesForTraining}">
-            <ListBox.ItemsPanel>
-                <ItemsPanelTemplate>
-                    <StackPanel Orientation="Horizontal">
-                    </StackPanel>
-                </ItemsPanelTemplate>
-            </ListBox.ItemsPanel>
-            <ListBox.ItemTemplate>
-                <DataTemplate>
-                    <StackPanel Background="AliceBlue" Margin="10" Width="auto">
-                        <TextBlock Text="{Binding ExerciseSetTitle}" Background="DarkOrange" TextAlignment="Center" FontSize="14" FontWeight="SemiBold"/>
-                        <ItemsControl ItemsSource="{Binding Exercises}">
-                            <ItemsControl.ItemTemplate>
-                                <DataTemplate>
-                                    <TextBlock Text="{Binding ExerciseName}" />
-                                </DataTemplate>
-                            </ItemsControl.ItemTemplate>
-                        </ItemsControl>
-                    </StackPanel>
-                </DataTemplate>
-            </ListBox.ItemTemplate>
-        </ListBox>
-
-        <TreeView Grid.Row="3"
+        <TreeView Grid.Row="2"
                   ItemsSource="{Binding ActualExercisesForTraining}"
                    commands:MouseDoubleClickTreeView.Command="{Binding TreeViewDoubleClickExCommand}">
             <TreeView.ItemTemplate>
@@ -90,6 +66,12 @@
                 </HierarchicalDataTemplate>
             </TreeView.ItemTemplate>
         </TreeView>
+
+        <Button 
+            Grid.Row="3"
+            Content="Zatwierdź"
+            Command="{Binding ConfirmCommand}"
+            />
+
     </Grid>
-    
 </UserControl>

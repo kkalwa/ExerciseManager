@@ -75,6 +75,7 @@ namespace ExerciseManager.ViewModels
         }
         public ICommand TreeViewDoubleClickCommand { get; set; }
         public ICommand TreeViewDoubleClickExCommand { get; set;}
+        public ICommand ConfirmCommand { get; set; }
 
         public CurrentTrainingViewModel(ViewMediator viewMediator) : base(viewMediator)
         {
@@ -82,6 +83,13 @@ namespace ExerciseManager.ViewModels
             ExerciseSetsTreeView = ToTreeViewItemConverter.ConvertToTreeViewItemList(exerciseSetsList);
             TreeViewDoubleClickCommand = new RelayCommand(OnTreeViewDoubleClicked);
             TreeViewDoubleClickExCommand = new RelayCommand(OnTreeViewDoubleClickEx);
+            ConfirmCommand = new RelayCommand(OnConfirmClicked);
+        }
+
+        private void OnConfirmClicked(object obj)
+        {
+            viewMediator.StoreData("ACTUAL_EXERCISES", ActualExercisesForTraining);
+            viewMediator.ViewModelParent.ChangeChildViewModel("ManageCurrentTrainingViewModel");
         }
 
         private void OnTreeViewDoubleClickEx(object obj)
