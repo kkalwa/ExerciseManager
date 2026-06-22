@@ -1,9 +1,11 @@
-﻿using ExerciseManager.Mediators;
+﻿using ExerciseManager.Commands;
+using ExerciseManager.Mediators;
 using ExerciseManager.Models;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Text;
+using System.Windows.Input;
 
 namespace ExerciseManager.ViewModels
 {
@@ -31,9 +33,12 @@ namespace ExerciseManager.ViewModels
             }
         }
 
+        public ICommand SaveTrainingCommand { get; set; }
+
         public ManageCurrentTrainingViewModel(ViewMediator viewMediator) : base(viewMediator)
         {
             ActualExercisesForTraining = RetrieveActualExercises();
+            SaveTrainingCommand = new RelayCommand(SaveTraining);
         }
 
         private ObservableCollection<ExerciseSetModel> RetrieveActualExercises()
@@ -57,6 +62,11 @@ namespace ExerciseManager.ViewModels
                 viewMediator.DeleteData("ACTUAL_EXERCISES"); 
 
             return output;
+        }
+
+        private void SaveTraining(object parameter)
+        {
+
         }
     }
 }

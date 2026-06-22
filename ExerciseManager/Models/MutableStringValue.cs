@@ -14,6 +14,7 @@ namespace ExerciseManager.Models
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
+        public static MutableStringValue Empty => new MutableStringValue(string.Empty);
         public string Value
         {
             get { return field; }
@@ -24,5 +25,6 @@ namespace ExerciseManager.Models
         {
             Value = value;
         }
+        
     }
 }

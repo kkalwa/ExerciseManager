@@ -47,7 +47,8 @@
                                                 </DataTemplate>
                                             </ListBox.ItemTemplate>
                                         </ListBox>
-                                        <TextBox Width="200"/>
+                                        <TextBox Text="{Binding Description.Value}" 
+                                                 Width="200"/>
                                     </WrapPanel>
                                 </DataTemplate>
                             </ListBox.ItemTemplate>
@@ -56,5 +57,6 @@
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>
+        <Button Content="Zapisz trening" Grid.Row="1" Height="Auto" Width="Auto" Command="{Binding SaveTrainingCommand}"/>
     </Grid>
 </UserControl>
