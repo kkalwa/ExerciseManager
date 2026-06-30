@@ -13,7 +13,6 @@ namespace ExerciseManager.Models
         public string IdUser { get; set; }
         public string ExerciseSetTitle { get; set; }
         public ObservableCollection<ExerciseModel> Exercises { get; set; } = new ObservableCollection<ExerciseModel>();
-
         public override string ToString()
         {
             return $"IdExerciseSet: {IdExerciseSet}, IdUser: {IdUser}, ExerciseSetTitle: {ExerciseSetTitle}";

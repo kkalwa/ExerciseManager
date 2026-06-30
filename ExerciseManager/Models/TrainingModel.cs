@@ -7,11 +7,14 @@ namespace ExerciseManager.Models
 {
     public class TrainingModel
     {
-        public ObservableCollection<ExerciseModel> ExerciseList { get; set; }
-        public DateOnly Date { get; set; } = new DateOnly();
-        public TrainingModel(ObservableCollection<ExerciseModel> exerciseList) 
+        public ObservableCollection<ExerciseSetModel> ExerciseList { get;  }
+        public DateTime Date { get;  } 
+        public string IdUser { get=>ExerciseList.First().IdUser; }
+    
+        public TrainingModel(DateTime Date,ObservableCollection<ExerciseSetModel> ExerciseList) 
         { 
-            ExerciseList = exerciseList;
+            this.Date = Date;
+            this.ExerciseList = ExerciseList;
         }
     }
 }

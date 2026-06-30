@@ -55,7 +55,8 @@ namespace ExerciseManager.ViewModels
 
             foreach (var element in listOfSetIds)
             {
-                ExerciseSetModel newEntry = new() { IdExerciseSet = element };
+                ExerciseSetModel newEntry = new() { IdExerciseSet = element,
+                IdUser = viewMediator.CurrentUser.Id };
 
                 foreach(var element2 in list)
                 {

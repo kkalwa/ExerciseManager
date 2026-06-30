@@ -36,7 +36,7 @@ namespace ExerciseManager.Models
              {
                     ExerciseWeights.Add(new MutableStringValue("10"));
              }
-            Description = new MutableStringValue("---Unknown---");
+            Description.Value = "Description";
         }
     }
 }

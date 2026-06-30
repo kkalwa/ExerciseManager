@@ -1,6 +1,7 @@
 ﻿using ExerciseManager.Commands;
 using ExerciseManager.Mediators;
 using ExerciseManager.Models;
+using ExerciseManager.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -34,13 +35,17 @@ namespace ExerciseManager.ViewModels
         }
 
         public ICommand SaveTrainingCommand { get; set; }
+        
+        
 
         public ManageCurrentTrainingViewModel(ViewMediator viewMediator) : base(viewMediator)
         {
+            trainingRepository = new TrainingRepository();
             ActualExercisesForTraining = RetrieveActualExercises();
             SaveTrainingCommand = new RelayCommand(SaveTraining);
         }
 
+        private ITrainingRepository trainingRepository;
         private ObservableCollection<ExerciseSetModel> RetrieveActualExercises()
         {
             ObservableCollection<ExerciseSetModel> output = null;
@@ -66,7 +71,14 @@ namespace ExerciseManager.ViewModels
 
         private void SaveTraining(object parameter)
         {
-
+            
+            try 
+            {
+                trainingRepository.AddTraining(new TrainingModel(DateTime.Now, ActualExercisesForTraining));
+            }catch(InvalidOperationException e)
+            {
+                ErrorMessage = e.Message;
+            }
         }
     }
 }
