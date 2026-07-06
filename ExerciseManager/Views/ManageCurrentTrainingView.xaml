@@ -1,0 +1,62 @@
+﻿<UserControl x:Class="ExerciseManager.Views.ManageCurrentTrainingView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:ExerciseManager.Views"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <!-- Now that's some ugly ass code that starts here -->
+        <ListBox Grid.Row="0"
+                  ItemsSource="{Binding ActualExercisesForTraining}"> <!-- Headers -->
+            <ListBox.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <WrapPanel Orientation="Vertical"/>
+                </ItemsPanelTemplate>
+            </ListBox.ItemsPanel>
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Background="AliceBlue" Width="auto">
+                        <TextBlock Text="{Binding ExerciseSetTitle}" Background="DarkOrange" TextAlignment="Center" FontSize="14" FontWeight="SemiBold"/>
+                        <ListBox ItemsSource="{Binding Exercises}"> <!-- Exercises start here -->
+                            <ListBox.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <WrapPanel Orientation="Vertical"/>
+                                </ItemsPanelTemplate>
+                            </ListBox.ItemsPanel>
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <WrapPanel Orientation="Horizontal">
+                                        <TextBlock Text="{Binding ExerciseName}"/>
+                                        <ListBox ItemsSource="{Binding ExerciseWeights}"> <!-- Weights start here  -->
+                                            
+                                            <ListBox.ItemsPanel>
+                                                <ItemsPanelTemplate>
+                                                    <WrapPanel Orientation="Horizontal"/>
+                                                </ItemsPanelTemplate>
+                                            </ListBox.ItemsPanel>
+
+                                            <ListBox.ItemTemplate>
+                                                <DataTemplate>
+                                                    <TextBox Text="{Binding Value}"/>
+                                                </DataTemplate>
+                                            </ListBox.ItemTemplate>
+                                        </ListBox>
+                                        <TextBox Text="{Binding Description.Value}" 
+                                                 Width="200"/>
+                                    </WrapPanel>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+                    </StackPanel>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+        <Button Content="Zapisz trening" Grid.Row="1" Height="Auto" Width="Auto" Command="{Binding SaveTrainingCommand}"/>
+    </Grid>
+</UserControl>

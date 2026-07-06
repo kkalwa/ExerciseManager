@@ -14,15 +14,13 @@ using System.Windows.Shapes;
 namespace ExerciseManager.Views
 {
     /// <summary>
-    /// Interaction logic for UserPanelView.xaml
+    /// Interaction logic for HistoryView.xaml
     /// </summary>
-    public partial class UserPanelView : UserControl
+    public partial class HistoryView : UserControl
     {
-        public UserPanelView()
+        public HistoryView()
         {
             InitializeComponent();
-            
-
         }
     }
 }

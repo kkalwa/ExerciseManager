@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ExerciseManager.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Windows;
@@ -14,15 +15,14 @@ using System.Windows.Shapes;
 namespace ExerciseManager.Views
 {
     /// <summary>
-    /// Interaction logic for UserPanelView.xaml
+    /// Interaction logic for CurrentTrainingView.xaml
     /// </summary>
-    public partial class UserPanelView : UserControl
+    public partial class CurrentTrainingView : UserControl
     {
-        public UserPanelView()
+        public CurrentTrainingView()
         {
             InitializeComponent();
             
-
         }
     }
 }
