@@ -12,21 +12,25 @@ namespace ExerciseManager.Repositories
     {
         public void AddTraining(TrainingModel trainingModel)
         {
-            int numberOfRowsAffected;
             using (var connection = GetConnection())
             using (var command = new SqlCommand())
             {
                 connection.Open();
                 command.Connection = connection;
-                SqlTransaction transaction = connection.BeginTransaction();
-                command.Transaction = transaction;
-                command.CommandText = "INSERT INTO dbo.Training (Date, Id_User)\r\n" + 
-                    "Values (@date, @id_user)\r\n" +
-                    "INSERT INTO dbo.Training_Activities (Id_Training, Id_Exercise)\r\n" +
-                    "VALUES(SCOPE_IDENTITY(), @id_exercise)";
+                command.CommandText = 
+                    "INSERT INTO dbo.Training (Date, Id_User)\r\n" +
+                    "OUTPUT INSERTED.Id_Training\r\n" +
+                    "VALUES (@date, @id_user)\r\n";
                 command.Parameters.Add("@date", SqlDbType.DateTime).Value = trainingModel.Date;
                 command.Parameters.Add("@id_user", SqlDbType.Int).Value = Int32.Parse(trainingModel.IdUser);
+                int generatedKey = (Int32)command.ExecuteScalar();
+                command.Transaction = connection.BeginTransaction();
+                command.CommandText = 
+                    "INSERT INTO dbo.Training_Activities (Id_Training, Id_Exercise)\r\n" +
+                    "VALUES(@id_training, @id_exercise)";
+                command.Parameters.Add("@id_training", SqlDbType.Int).Value = generatedKey;
                 command.Parameters.Add("@id_exercise", SqlDbType.Int);
+                
                 foreach (var e in getListOfExerciseIds(trainingModel.ExerciseList))
                 {
                     command.Parameters["@id_exercise"].Value = Int32.Parse(e);
@@ -38,20 +42,14 @@ namespace ExerciseManager.Repositories
                 }
                 try
                 {
-                    transaction.Commit();
+                    command.Transaction.Commit();
                 } catch(Exception e)
                 {
-                    transaction.Rollback();
+                    command.Transaction.Rollback();
                     throw;
                 }
-                /*numberOfRowsAffected = command.ExecuteNonQuery();
-                if (numberOfRowsAffected <= 0)
-                {
-                    throw new InvalidOperationException("Failed to add training.");
-                }*/
                 connection.Close();
             }
-           
         }
 
         private Collection<string> getListOfExerciseIds(Collection<ExerciseSetModel> exerciseSets)
