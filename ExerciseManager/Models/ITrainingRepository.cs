@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Text;
 
 namespace ExerciseManager.Models
@@ -7,5 +8,6 @@ namespace ExerciseManager.Models
     public interface ITrainingRepository
     {
         public void AddTraining(TrainingModel trainingModel);
+        public ObservableCollection<ExerciseSetModel> GetTrainingsByUserId(string userId);
     }
 }

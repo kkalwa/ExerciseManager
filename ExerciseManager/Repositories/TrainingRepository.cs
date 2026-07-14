@@ -12,6 +12,7 @@ namespace ExerciseManager.Repositories
     {
         public void AddTraining(TrainingModel trainingModel)
         {
+            
             using (var connection = GetConnection())
             using (var command = new SqlCommand())
             {
@@ -49,6 +50,31 @@ namespace ExerciseManager.Repositories
                     throw;
                 }
                 connection.Close();
+            }
+        }
+
+        public ObservableCollection<ExerciseSetModel> GetTrainingsByUserId(string userId)
+        {
+            using (var connection = GetConnection())
+            {
+                connection.Open();
+                using (var command = new SqlCommand())
+                {
+                    command.Connection = connection;
+                    command.CommandText = "SELECT * FROM dbo.Training WHERE Id_User = @id_user";
+                    command.Parameters.Add("@id_user", SqlDbType.Int).Value = Int32.Parse(userId);
+                    var reader = command.ExecuteReader();
+                    ObservableCollection<ExerciseSetModel> trainings = new ObservableCollection<ExerciseSetModel>();
+                    while (reader.Read())
+                    {
+                        trainings.Add(new ExerciseSetModel
+                        {
+                            IdExerciseSet = reader["Id_ExerciceSet"].ToString(),
+                            Exercises = new ObservableCollection<ExerciseModel>()
+                        });
+                    }
+                    return trainings;
+                }
             }
         }
 

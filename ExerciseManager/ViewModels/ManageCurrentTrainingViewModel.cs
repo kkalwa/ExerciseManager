@@ -71,11 +71,12 @@ namespace ExerciseManager.ViewModels
 
         private void SaveTraining(object parameter)
         {
-            
             try 
             {
                 trainingRepository.AddTraining(new TrainingModel(DateTime.Now, ActualExercisesForTraining));
-            }catch(InvalidOperationException e)
+                viewMediator.ViewModelParent.ChangeChildViewModel("HistoryViewModel");
+            }
+            catch(InvalidOperationException e)
             {
                 ErrorMessage = e.Message;
             }
