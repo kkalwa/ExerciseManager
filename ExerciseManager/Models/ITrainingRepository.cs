@@ -8,6 +8,6 @@ namespace ExerciseManager.Models
     public interface ITrainingRepository
     {
         public void AddTraining(TrainingModel trainingModel);
-        public ObservableCollection<ExerciseSetModel> GetTrainingsByUserId(string userId);
+        public ObservableCollection<TrainingModel> GetTrainingsByUserId(string userId);
     }
 }

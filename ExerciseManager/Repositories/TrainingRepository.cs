@@ -53,7 +53,7 @@ namespace ExerciseManager.Repositories
             }
         }
 
-        public ObservableCollection<ExerciseSetModel> GetTrainingsByUserId(string userId)
+        public ObservableCollection<TrainingModel> GetTrainingsByUserId(string userId)
         {
             using (var connection = GetConnection())
             {
@@ -61,17 +61,13 @@ namespace ExerciseManager.Repositories
                 using (var command = new SqlCommand())
                 {
                     command.Connection = connection;
-                    command.CommandText = "SELECT * FROM dbo.Training WHERE Id_User = @id_user";
+                    command.CommandText = "SELECT * FROM dbo.Training, dbo.TrainingActivities WHERE " +
+                        "dbo.Training.Id_Training = dbo.TrainingActivities.Id_Training AND " +
+                        "dbo.Training.Id_User = @id_user";
                     command.Parameters.Add("@id_user", SqlDbType.Int).Value = Int32.Parse(userId);
                     var reader = command.ExecuteReader();
-                    ObservableCollection<ExerciseSetModel> trainings = new ObservableCollection<ExerciseSetModel>();
-                    while (reader.Read())
-                    {
-                        trainings.Add(new ExerciseSetModel
-                        {
-                            IdExerciseSet = reader["Id_ExerciceSet"].ToString(),
-                            Exercises = new ObservableCollection<ExerciseModel>()
-                        });
+                    ObservableCollection<TrainingModel> trainings = new ObservableCollection<TrainingModel>();
+                    
                     }
                     return trainings;
                 }

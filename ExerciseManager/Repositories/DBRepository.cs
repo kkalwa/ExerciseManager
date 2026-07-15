@@ -2,6 +2,7 @@
 using Microsoft.Data.SqlClient;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Data;
 using System.Globalization;
 using System.Text;
@@ -222,6 +223,31 @@ namespace ExerciseManager.Repositories
             }
 
             return SQLResults.Success;
+        }
+
+        public ExerciseModel GetExerciseById(string ExerciseId)
+        {
+            using (var connection = GetConnection())
+            {
+                connection.Open();
+                using (var command = new SqlCommand())
+                {
+                    command.Connection = connection;
+                    command.CommandText = "SELECT * FROM dbo.Exercises WHERE Id_Exercise = @id_exercise";
+                    command.Parameters.Add("@id_exercise", SqlDbType.Int).Value = Int32.Parse(ExerciseId);
+                    var reader = command.ExecuteReader();
+                    if (reader.Read())
+                    {
+                        return new ExerciseModel
+                        {
+                            IdExercise = reader["Id_Exercise"].ToString(),
+                            ExerciseName = reader["Exercise_Name"].ToString(),
+                            ExerciseWeights = new ObservableCollection<MutableStringValue>()
+                        };
+                    }
+                }
+            }
+            return null;
         }
     }
 }
