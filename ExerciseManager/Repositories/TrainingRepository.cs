@@ -8,7 +8,7 @@ using System.Text;
 
 namespace ExerciseManager.Repositories
 {
-    internal class TrainingRepository : RepositoryBase, ITrainingRepository
+    public class TrainingRepository : RepositoryBase, ITrainingRepository
     {
         public void AddTraining(TrainingModel trainingModel)
         {
@@ -69,10 +69,10 @@ namespace ExerciseManager.Repositories
                     ObservableCollection<TrainingModel> trainings = new ObservableCollection<TrainingModel>();
                     
                     }
-                    return trainings;
+                    return null;
                 }
             }
-        }
+        
 
         private Collection<string> getListOfExerciseIds(Collection<ExerciseSetModel> exerciseSets)
         {

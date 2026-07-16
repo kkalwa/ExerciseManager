@@ -12,6 +12,7 @@ namespace ExerciseManager.Models
         public List<ManageExercisesModel> GetExercisesBasedOnUserId(string Id);
         public List<string> GetDistinctIdSetsForUser(string id_user);
         public SQLResults InsertNewExerciseSet(ExerciseSetModel newSet);
-        
+        public ExerciseModel GetExerciseById(string ExerciseId);
+
     }
 }

@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Data;
 using System.Globalization;
+using System.Reflection;
 using System.Text;
 
 namespace ExerciseManager.Repositories
@@ -227,6 +228,7 @@ namespace ExerciseManager.Repositories
 
         public ExerciseModel GetExerciseById(string ExerciseId)
         {
+            ExerciseModel exercise = null;
             using (var connection = GetConnection())
             {
                 connection.Open();
@@ -238,16 +240,22 @@ namespace ExerciseManager.Repositories
                     var reader = command.ExecuteReader();
                     if (reader.Read())
                     {
-                        return new ExerciseModel
+                        exercise = new ExerciseModel
                         {
                             IdExercise = reader["Id_Exercise"].ToString(),
-                            ExerciseName = reader["Exercise_Name"].ToString(),
-                            ExerciseWeights = new ObservableCollection<MutableStringValue>()
+                            ExerciseName = reader["Exercise_Name"].ToString()
+                            
                         };
+                        exercise.Description.Value = reader["Description"].ToString();
+                        exercise.exerciseWeights[0].Value = reader["Weight1"].ToString();
+                        exercise.exerciseWeights[1].Value = reader["Weight2"].ToString();
+                        exercise.exerciseWeights[2].Value = reader["Weight3"].ToString();
+                        exercise.exerciseWeights[3].Value = reader["Weight4"].ToString();
+                        exercise.exerciseWeights[4].Value = reader["Weight5"].ToString();
                     }
                 }
             }
-            return null;
+            return exercise ?? throw new NullReferenceException("Exercise not found");
         }
     }
 }
