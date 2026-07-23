@@ -12,8 +12,9 @@ namespace ExerciseManager.ViewModels
     {
         public HistoryViewModel(ViewMediator viewMediator): base(viewMediator)
         {
-            //TrainingsCollection = trainingRepository.GetTrainingsByUserId(viewMediator.CurrentUser.Id);
-            
+            trainingRepository.GetTrainingsByUserId(viewMediator.CurrentUser.Id);
+
+
         }
 
         private ITrainingRepository trainingRepository = new TrainingRepository();

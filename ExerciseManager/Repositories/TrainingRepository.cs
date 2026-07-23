@@ -58,20 +58,43 @@ namespace ExerciseManager.Repositories
             using (var connection = GetConnection())
             {
                 connection.Open();
+                ObservableCollection<TrainingModel> trainings = new();
                 using (var command = new SqlCommand())
                 {
                     command.Connection = connection;
-                    command.CommandText = "SELECT * FROM dbo.Training, dbo.TrainingActivities WHERE " +
-                        "dbo.Training.Id_Training = dbo.TrainingActivities.Id_Training AND " +
+                    command.CommandText = "SELECT * FROM dbo.Training, dbo.Training_Activities, dbo.Exercises WHERE " +
+                        "dbo.Training.Id_Training = dbo.Training_Activities.Id_Training AND " +
+                        "dbo.Training_Activities.Id_Exercise = dbo.Exercises.Id_Exercise AND " +
                         "dbo.Training.Id_User = @id_user";
                     command.Parameters.Add("@id_user", SqlDbType.Int).Value = Int32.Parse(userId);
                     var reader = command.ExecuteReader();
-                    ObservableCollection<TrainingModel> trainings = new ObservableCollection<TrainingModel>();
-                    
+
+                    while(reader.Read())
+                    {
+                        ExerciseModel entry = new()
+                        {
+                            IdExercise = reader.GetInt32("Id_Exercise").ToString(),
+                            IdExerciseSet = reader.GetInt32("Id_ExerciseSet").ToString(),
+                            ExerciseName = reader.GetString("Exercise_Name")
+                        };
+                        
+                        for(int i=1; i<=5;i++)
+                        {
+                            if(!reader.IsDBNull(reader.GetOrdinal($"Weight{i}")))
+                            {
+                                string weight = reader.GetFloat($"Weight{i}").ToString();
+                                entry.ExerciseWeights.Add(new MutableStringValue(weight));
+                            }
+                        }
+                        if(!reader.IsDBNull(reader.GetOrdinal("Description")))
+                        {
+                            entry.Description.Value = reader.GetString("Description");
+                        }
                     }
-                    return null;
                 }
+                    return null;
             }
+        }
         
 
         private Collection<string> getListOfExerciseIds(Collection<ExerciseSetModel> exerciseSets)
