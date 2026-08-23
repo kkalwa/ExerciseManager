@@ -3,13 +3,43 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:behaviors="http://schemas.microsoft.com/xaml/behaviors"
              xmlns:local="clr-namespace:ExerciseManager.Views"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
-        <Label FontSize="22" Content="HistoryView"></Label>
-        <DataGrid ItemsSource="{Binding TrainingsCollection}">
-            
-        </DataGrid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto"/>   
+        </Grid.ColumnDefinitions>
+        <Label Grid.Column="0" Grid.Row="0" FontSize="22" Content="HistoryView"></Label>
+        <!--<TreeView ItemsSource="{Binding TrainingsCollection}">
+            <TreeView.ItemTemplate>
+                <HierarchicalDataTemplate ItemsSource="{Binding Exercises}">
+                    <TextBlock Text="{Binding Date}" Background="DarkOrange"/>
+                    <HierarchicalDataTemplate.ItemTemplate>
+                        <HierarchicalDataTemplate>
+                            <TextBlock Text="{Binding ExerciseName}" />
+                        </HierarchicalDataTemplate>
+                    </HierarchicalDataTemplate.ItemTemplate>
+                </HierarchicalDataTemplate>
+            </TreeView.ItemTemplate>
+        </TreeView>-->
+        <Calendar 
+            Grid.Column="0"
+            Grid.Row="1">
+            <behaviors:Interaction.Triggers>
+                <behaviors:EventTrigger EventName="SelectedDatesChanged">
+                    <behaviors:InvokeCommandAction 
+                        Command="{Binding DateSelectedCommand}" 
+                        CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Calendar}, Path=SelectedDate}" />
+                </behaviors:EventTrigger>
+            </behaviors:Interaction.Triggers>
+
+        </Calendar>
     </Grid>
 </UserControl>
