@@ -42,7 +42,7 @@ namespace ExerciseManager.ViewModels
         {
             trainingRepository = new TrainingRepository();
             ActualExercisesForTraining = RetrieveActualExercises();
-            SaveTrainingCommand = new RelayCommand(SaveTraining);
+            SaveTrainingCommand = new RelayCommand<object>(SaveTraining);
         }
 
         private ITrainingRepository trainingRepository;

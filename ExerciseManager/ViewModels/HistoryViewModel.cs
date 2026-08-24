@@ -14,12 +14,12 @@ namespace ExerciseManager.ViewModels
     {
         public HistoryViewModel(ViewMediator viewMediator): base(viewMediator)
         {
-            DateSelectedCommand = new RelayCommand(onDateSelected);
+            DateSelectedCommand = new RelayCommand<DateTime>(onDateSelected);
             trainingsCollection = new ObservableCollection<TrainingHistoryModel>(trainingRepository.GetTrainingHistoryByUserId(viewMediator.CurrentUser.Id));
 
         }
 
-        private void onDateSelected(object SelectedDate)
+        private void onDateSelected(DateTime SelectedDate)
         {
             throw new NotImplementedException();
         }
@@ -31,6 +31,16 @@ namespace ExerciseManager.ViewModels
         /**
          * Properties associated with the view
          */
+        private DateTime selectedDate;
+        public DateTime SelectedDate
+        {
+            get { return selectedDate; }
+            set
+            {
+                selectedDate = value;
+                OnPropertyChanged();
+            }
+        }
         private ObservableCollection<TrainingHistoryModel> trainingsCollection;
         public ObservableCollection<TrainingHistoryModel> TrainingsCollection
         {

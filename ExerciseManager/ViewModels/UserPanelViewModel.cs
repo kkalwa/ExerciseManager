@@ -60,7 +60,7 @@ namespace ExerciseManager.ViewModels
         public ICommand ManageExercisesCommand { get; set; }
         public ICommand CheckHistoryCommand { get; set; }
         public ICommand AddNewTrainingCommand { get; set; }
-        public RelayCommand LogOutCommand { get; set; }
+        public RelayCommand<object> LogOutCommand { get; set; }
         public String CurrentUserName
         {
             get { return currentUserName; }
@@ -76,10 +76,10 @@ namespace ExerciseManager.ViewModels
          */
         public UserPanelViewModel(ViewMediator viewMediator) : base(viewMediator)
         {
-            LogOutCommand = new RelayCommand(LogOut);
-            ManageExercisesCommand = new RelayCommand(ManageExercises);
-            CheckHistoryCommand = new RelayCommand(CheckHistory);
-            AddNewTrainingCommand = new RelayCommand(AddNewTraining);
+            LogOutCommand = new RelayCommand<object>(LogOut);
+            ManageExercisesCommand = new RelayCommand<object>(ManageExercises);
+            CheckHistoryCommand = new RelayCommand<object>(CheckHistory);
+            AddNewTrainingCommand = new RelayCommand<object>(AddNewTraining);
             currentLoggedUser = viewMediator.CurrentUser;
             currentUserName = viewMediator.CurrentUser.Username;
             currentUserId = viewMediator.CurrentUser.Id;

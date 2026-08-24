@@ -81,9 +81,9 @@ namespace ExerciseManager.ViewModels
         {
             ExerciseSetsList = RetrieveSelectedSets();
             ExerciseSetsTreeView = ToTreeViewItemConverter.ConvertToTreeViewItemList(exerciseSetsList);
-            TreeViewDoubleClickCommand = new RelayCommand(OnTreeViewDoubleClicked);
-            TreeViewDoubleClickExCommand = new RelayCommand(OnTreeViewDoubleClickEx);
-            ConfirmCommand = new RelayCommand(OnConfirmClicked);
+            TreeViewDoubleClickCommand = new RelayCommand<object>(OnTreeViewDoubleClicked);
+            TreeViewDoubleClickExCommand = new RelayCommand<object>(OnTreeViewDoubleClickEx);
+            ConfirmCommand = new RelayCommand<object>(OnConfirmClicked);
         }
 
         private void OnConfirmClicked(object obj)

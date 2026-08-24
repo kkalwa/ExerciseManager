@@ -54,9 +54,9 @@ namespace ExerciseManager.ViewModels
         {
             Exercises.Add(new ExerciseModel());
 
-            AddExerciseCommand = new RelayCommand(AddExercise);
-            AddNewLineCommand = new RelayCommand(AddNewLine);
-            RemoveLineCommand = new RelayCommand(RemoveLine);
+            AddExerciseCommand = new RelayCommand<object>(AddExercise);
+            AddNewLineCommand = new RelayCommand<object>(AddNewLine);
+            RemoveLineCommand = new RelayCommand<object>(RemoveLine);
         }
         private void AddExercise(object sender)
         {

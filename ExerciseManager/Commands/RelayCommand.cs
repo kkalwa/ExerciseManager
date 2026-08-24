@@ -5,18 +5,18 @@ using System.Windows.Input;
 
 namespace ExerciseManager.Commands
 {
-    public class RelayCommand : ICommand
+    public class RelayCommand<T> : ICommand
     {
-        readonly Action<object> execute;
-        readonly Predicate<object> canExecute;
+        readonly Action<T> execute;
+        readonly Predicate<T> canExecute;
 
-        public RelayCommand(Action<object> execute) :
+        public RelayCommand(Action<T> execute) :
             this(execute, null)
         {
 
         }
 
-        public RelayCommand(Action<object> execute, Predicate<object> canExecute)
+        public RelayCommand(Action<T> execute, Predicate<T> canExecute)
         {
             this.execute = execute;
             this.canExecute = canExecute;
@@ -24,7 +24,7 @@ namespace ExerciseManager.Commands
 
         public bool CanExecute(object parameter)
         {
-            return canExecute == null || canExecute(parameter);
+            return canExecute == null || canExecute((T)parameter);
         }
 
         public event EventHandler CanExecuteChanged
@@ -41,7 +41,7 @@ namespace ExerciseManager.Commands
 
         public void Execute(object parameter)
         {
-            execute(parameter);
+            execute((T)parameter);
         }
     }
 }

@@ -54,8 +54,8 @@ namespace ExerciseManager.ViewModels
         public ManageTrainingsViewModel(ViewMediator viewMediator) : base(viewMediator) 
         {
             DBRepository = new DBRepository();
-            AddToTrainingCommand = new RelayCommand(AddToTraining);
-            ConfirmTrainingCommand =  new RelayCommand(ConfirmTraining);
+            AddToTrainingCommand = new RelayCommand<object>(AddToTraining);
+            ConfirmTrainingCommand =  new RelayCommand<object>(ConfirmTraining);
             PrepareExerciseSetsList();
         }
         

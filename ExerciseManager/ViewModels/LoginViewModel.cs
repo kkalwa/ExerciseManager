@@ -56,7 +56,7 @@ namespace ExerciseManager.ViewModels
             }
         }
         //public string TitleText { get; } = "Zaloguj się";
-        public RelayCommand GoToUserPanelCommand { get; set; } //**************************************************** Remove later *****************************
+        public RelayCommand<object> GoToUserPanelCommand { get; set; } //**************************************************** Remove later *****************************
         public ICommand InitiateLogInProcessCommand { get; set; }
         public ICommand CreateProfileCommand { get; set; }
 
@@ -89,8 +89,8 @@ namespace ExerciseManager.ViewModels
         {
             userRepository = new UserRepository();
             
-            CreateProfileCommand = new RelayCommand(GoToCreateNewProfile);
-            InitiateLogInProcessCommand = new RelayCommand(InitiateLoginProcess);
+            CreateProfileCommand = new RelayCommand<object>(GoToCreateNewProfile);
+            InitiateLogInProcessCommand = new RelayCommand<object>(InitiateLoginProcess);
         }
 
 

@@ -48,7 +48,7 @@ namespace ExerciseManager.ViewModels
         public ManageExercisesViewModel(ViewMediator viewMediator): base(viewMediator)
         {
             DBRepository = new DBRepository();
-            OpenAddNewSetCommand = new RelayCommand( (o) => { viewMediator.ViewModelParent.ChangeChildViewModel("CreateNewSetViewModel"); });
+            OpenAddNewSetCommand = new RelayCommand<object>( (o) => { viewMediator.ViewModelParent.ChangeChildViewModel("CreateNewSetViewModel"); });
             List<ManageExercisesModel> list = DBRepository.GetExercisesBasedOnUserId(viewMediator.CurrentUser.Id);
             List<string> listOfSetIds = DBRepository.GetDistinctIdSetsForUser(viewMediator.CurrentUser.Id);
             List<ExerciseSetModel> listOfExerciseSets = new();

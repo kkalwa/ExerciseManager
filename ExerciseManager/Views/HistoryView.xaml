@@ -8,15 +8,11 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-        </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="Auto"/>
-            <ColumnDefinition Width="Auto"/>   
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>   
         </Grid.ColumnDefinitions>
-        <Label Grid.Column="0" Grid.Row="0" FontSize="22" Content="HistoryView"></Label>
+        
         <!--<TreeView ItemsSource="{Binding TrainingsCollection}">
             <TreeView.ItemTemplate>
                 <HierarchicalDataTemplate ItemsSource="{Binding Exercises}">
@@ -31,15 +27,33 @@
         </TreeView>-->
         <Calendar 
             Grid.Column="0"
-            Grid.Row="1">
-            <behaviors:Interaction.Triggers>
-                <behaviors:EventTrigger EventName="SelectedDatesChanged">
-                    <behaviors:InvokeCommandAction 
-                        Command="{Binding DateSelectedCommand}" 
-                        CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Calendar}, Path=SelectedDate}" />
-                </behaviors:EventTrigger>
-            </behaviors:Interaction.Triggers>
-
+            HorizontalAlignment="Center"
+            VerticalAlignment="Top"
+            SelectedDate="{Binding SelectedDate}">
+            <Calendar.RenderTransform>
+                <ScaleTransform ScaleX="1.5" ScaleY="1.5"/>
+            </Calendar.RenderTransform>
         </Calendar>
+
+        <StackPanel
+            Grid.Column="1">
+            
+            <TextBlock
+                HorizontalAlignment="Center"
+                VerticalAlignment="Top"
+                Text="{Binding SelectedDate, StringFormat='{}{0:dd/MM/yyyy}'}">
+            </TextBlock>
+
+            <TreeView>
+                <TreeView.ItemTemplate>
+                    <HierarchicalDataTemplate>
+                        
+                    </HierarchicalDataTemplate>>
+                </TreeView.ItemTemplate>>
+            </TreeView>
+
+        </StackPanel>
+        
+        
     </Grid>
 </UserControl>

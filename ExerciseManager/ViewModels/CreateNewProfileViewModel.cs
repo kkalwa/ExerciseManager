@@ -75,8 +75,8 @@ namespace ExerciseManager.ViewModels
          * */
         public CreateNewProfileViewModel(ViewMediator viewMediator): base(viewMediator)
         {
-            ConfirmCreatingProfileCommand = new RelayCommand(ConfirmCreatingProfile);
-            CancelCommand = new RelayCommand(Cancel);
+            ConfirmCreatingProfileCommand = new RelayCommand<object>(ConfirmCreatingProfile);
+            CancelCommand = new RelayCommand<object>(Cancel);
             userRepository = new UserRepository();
             ErrorString = "Niech tutaj wyswietla sie status";
         }
