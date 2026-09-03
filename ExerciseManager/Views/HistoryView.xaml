@@ -4,32 +4,31 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:behaviors="http://schemas.microsoft.com/xaml/behaviors"
+             xmlns:commands="clr-namespace:ExerciseManager.Commands"
              xmlns:local="clr-namespace:ExerciseManager.Views"
+             xmlns:conv="clr-namespace:ExerciseManager.Converters"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <conv:DateToBackgroundConverter x:Key="DateConverter"/>
+        <Style x:Key="CalendarDayButtonStyle" TargetType="CalendarDayButton">
+            <Setter Property="Background" 
+                    Value="{Binding Date, RelativeSource={RelativeSource Self}, Converter={StaticResource DateConverter}}"/>
+        </Style>
+    </UserControl.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="*"/>   
         </Grid.ColumnDefinitions>
-        
-        <!--<TreeView ItemsSource="{Binding TrainingsCollection}">
-            <TreeView.ItemTemplate>
-                <HierarchicalDataTemplate ItemsSource="{Binding Exercises}">
-                    <TextBlock Text="{Binding Date}" Background="DarkOrange"/>
-                    <HierarchicalDataTemplate.ItemTemplate>
-                        <HierarchicalDataTemplate>
-                            <TextBlock Text="{Binding ExerciseName}" />
-                        </HierarchicalDataTemplate>
-                    </HierarchicalDataTemplate.ItemTemplate>
-                </HierarchicalDataTemplate>
-            </TreeView.ItemTemplate>
-        </TreeView>-->
+
         <Calendar 
             Grid.Column="0"
             HorizontalAlignment="Center"
             VerticalAlignment="Top"
-            SelectedDate="{Binding SelectedDate}">
+            SelectedDate="{Binding SelectedDate}"
+            CalendarDayButtonStyle="{StaticResource CalendarDayButtonStyle}"
+            commands:CalendarHighlighter.HighlightedDates="{Binding DatabaseDates}" >
             <Calendar.RenderTransform>
                 <ScaleTransform ScaleX="1.5" ScaleY="1.5"/>
             </Calendar.RenderTransform>
@@ -44,13 +43,14 @@
                 Text="{Binding SelectedDate, StringFormat='{}{0:dd/MM/yyyy}'}">
             </TextBlock>
 
-            <TreeView>
-                <TreeView.ItemTemplate>
-                    <HierarchicalDataTemplate>
-                        
-                    </HierarchicalDataTemplate>>
-                </TreeView.ItemTemplate>>
-            </TreeView>
+            <ListView 
+                ItemsSource="{Binding SelectedExercises}">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding ExerciseName}" />  
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
 
         </StackPanel>
         

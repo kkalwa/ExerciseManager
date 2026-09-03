@@ -16,12 +16,23 @@ namespace ExerciseManager.ViewModels
         {
             DateSelectedCommand = new RelayCommand<DateTime>(onDateSelected);
             trainingsCollection = new ObservableCollection<TrainingHistoryModel>(trainingRepository.GetTrainingHistoryByUserId(viewMediator.CurrentUser.Id));
-
+            foreach (var training in trainingsCollection)
+            {
+                DatabaseDates.Add(training.Date);
+            }
         }
 
         private void onDateSelected(DateTime SelectedDate)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var selectedTraining = trainingsCollection.First(p => p.Date.Date == SelectedDate.Date);
+                SelectedExercises = new ObservableCollection<ExerciseModel>(selectedTraining.Exercises);
+            }
+            catch(InvalidOperationException)
+            {
+                
+            }
         }
 
         public ICommand DateSelectedCommand { get; set; }
@@ -38,6 +49,7 @@ namespace ExerciseManager.ViewModels
             set
             {
                 selectedDate = value;
+                onDateSelected(value);
                 OnPropertyChanged();
             }
         }
@@ -51,7 +63,30 @@ namespace ExerciseManager.ViewModels
                 OnPropertyChanged();
             }
         }
+        private ObservableCollection<ExerciseModel> selectedExercises;
+        public ObservableCollection<ExerciseModel> SelectedExercises
+        {
+            get { return selectedExercises; }
+            set
+            {
+                selectedExercises = value;
+                OnPropertyChanged();
+            }
+        }
 
+        private ObservableCollection<DateTime> databaseDates=[];
+        public ObservableCollection<DateTime> DatabaseDates
+        {
+            get
+            {
+                return databaseDates;
+            }
+            set
+            {
+                databaseDates = value;
+                OnPropertyChanged();
+            }
+        }
 
     }
 }
