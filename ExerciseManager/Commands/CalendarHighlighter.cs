@@ -26,6 +26,8 @@ namespace ExerciseManager.Commands
             
             Calendar calendar = target as Calendar;
             Collection<DateTime> dateSet = GetHighlightedDates(calendar);
+            dateSet = new Collection<DateTime>(dateSet.Select(date => date.Date).ToList());
+            
             var buttons = FindVisualChildren<CalendarDayButton>(calendar);
             foreach (var button in buttons)
             {

@@ -28,6 +28,7 @@
             VerticalAlignment="Top"
             SelectedDate="{Binding SelectedDate}"
             CalendarDayButtonStyle="{StaticResource CalendarDayButtonStyle}"
+            DisplayDate="{Binding DisplayDate}"
             commands:CalendarHighlighter.HighlightedDates="{Binding DatabaseDates}" >
             <Calendar.RenderTransform>
                 <ScaleTransform ScaleX="1.5" ScaleY="1.5"/>

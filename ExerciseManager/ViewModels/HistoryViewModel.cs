@@ -53,6 +53,21 @@ namespace ExerciseManager.ViewModels
                 OnPropertyChanged();
             }
         }
+
+        private DateTime displayDate = DateTime.Today;
+        public DateTime DisplayDate
+        {
+            get { return displayDate; }
+            set
+            {
+                if(value.Month != displayDate.Month)
+                {
+                    OnPropertyChanged("DatabaseDates");
+                }
+                displayDate = value;
+                OnPropertyChanged();
+            }
+        }
         private ObservableCollection<TrainingHistoryModel> trainingsCollection;
         public ObservableCollection<TrainingHistoryModel> TrainingsCollection
         {
