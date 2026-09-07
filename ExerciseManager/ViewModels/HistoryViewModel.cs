@@ -42,7 +42,7 @@ namespace ExerciseManager.ViewModels
         /**
          * Properties associated with the view
          */
-        private DateTime selectedDate;
+        private DateTime selectedDate = DateTime.Today;
         public DateTime SelectedDate
         {
             get { return selectedDate; }
