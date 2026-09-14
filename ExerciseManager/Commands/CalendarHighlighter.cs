@@ -54,7 +54,7 @@ namespace ExerciseManager.Commands
 
             // Przypisz zdarzenie, które wychwyci zmianę miesiąca/roku
             calendar.DisplayDateChanged += Calendar_DisplayDateChanged;
-            calendar.DisplayModeChanged -= Calendar_DisplayModeChanged;
+            calendar.DisplayModeChanged += Calendar_DisplayModeChanged;
 
             // Odśwież daty dla aktualnego widoku
             RefreshHighlights(calendar, e.NewValue as IEnumerable<DateTime>);
@@ -69,7 +69,7 @@ namespace ExerciseManager.Commands
                 // musimy wymusić przerysowanie wyróżnień na nowej siatce dni.
                 // Czasami UI kalendarza potrzebuje ułamka sekundy na wygenerowanie przycisków dni,
                 // dlatego bezpiecznie jest wywołać odświeżenie przez Dispatcher.
-                calendar.Dispatcher.BeginInvoke(new Action(() => RefreshHighlights(calendar)),
+                calendar.Dispatcher.BeginInvoke(new Action(() => RefreshHighlights(calendar, e as IEnumerable<DateTime>)),
                                                 System.Windows.Threading.DispatcherPriority.Loaded);
             }
         }
