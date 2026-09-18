@@ -45,7 +45,8 @@
             </TextBlock>
 
             <ListView 
-                ItemsSource="{Binding SelectedExercises}">
+                ItemsSource="{Binding SelectedExercises}"
+                Visibility="{Binding TrainingListVisibility}">
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <TextBlock Text="{Binding ExerciseName}" />  

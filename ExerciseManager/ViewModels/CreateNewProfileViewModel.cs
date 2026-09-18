@@ -24,6 +24,8 @@ namespace ExerciseManager.ViewModels
          * 
          * */
         private String errorString = string.Empty;
+        private SecureString passwordSecureString = new();
+        private SecureString passwordRepeatedSecureString = new();
 
         /** Public properties used by views
          * 
@@ -41,6 +43,24 @@ namespace ExerciseManager.ViewModels
             }
         }
 
+        public SecureString PasswordSecureString
+        {
+            get { return passwordSecureString; }
+            set
+            {
+                passwordSecureString = value;
+                OnPropertyChanged();
+            }
+        }
+        public SecureString PasswordRepeatedSecureString
+        {
+            get { return passwordRepeatedSecureString; }
+            set
+            {
+                passwordRepeatedSecureString = value;
+                OnPropertyChanged();
+            }
+        }
         /** Functions associated with RelayCommands
          * 
          * */

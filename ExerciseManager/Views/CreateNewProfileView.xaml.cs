@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ExerciseManager.Commands;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Windows;
@@ -22,6 +23,5 @@ namespace ExerciseManager.Views
         {
             InitializeComponent();
         }
-
     }
 }

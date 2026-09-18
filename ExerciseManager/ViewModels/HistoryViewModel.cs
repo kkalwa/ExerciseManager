@@ -27,11 +27,13 @@ namespace ExerciseManager.ViewModels
             try
             {
                 var selectedTraining = trainingsCollection.First(p => p.Date.Date == SelectedDate.Date);
+                TrainingListVisibility = "Visible";
                 SelectedExercises = new ObservableCollection<ExerciseModel>(selectedTraining.Exercises);
             }
             catch(InvalidOperationException)
             {
-                
+                TrainingListVisibility = "Collapsed";
+                SelectedExercises = new ObservableCollection<ExerciseModel>();
             }
         }
 
@@ -103,5 +105,15 @@ namespace ExerciseManager.ViewModels
             }
         }
 
+        private String trainingListVisibility = "Collapsed";
+        public String TrainingListVisibility
+        {
+            get { return trainingListVisibility; }
+            set
+            {
+                trainingListVisibility = value;
+                OnPropertyChanged();
+            }
+        }
     }
 }

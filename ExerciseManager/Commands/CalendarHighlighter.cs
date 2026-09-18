@@ -8,10 +8,11 @@ using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using System.Windows.Media;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace ExerciseManager.Commands
 {
-    public class CalendarHighlighter
+    public static class CalendarHighlighter
     {
         public static DependencyProperty HighlightedDatesProperty =
             DependencyProperty.RegisterAttached("HighlightedDates",
@@ -21,32 +22,6 @@ namespace ExerciseManager.Commands
 
         private static void HighlightedDatesChanged(DependencyObject target, DependencyPropertyChangedEventArgs e)
         {
-            /* if (target == null)
-                 return;
-
-             Calendar calendar = target as Calendar;
-             Collection<DateTime> dateSet = GetHighlightedDates(calendar);
-             dateSet = new Collection<DateTime>(dateSet.Select(date => date.Date).ToList());
-
-             var buttons = FindVisualChildren<CalendarDayButton>(calendar);
-             foreach (var button in buttons)
-             {
-                 if (button.DataContext is DateTime buttonDate)
-                 {
-                     if (dateSet.Contains(buttonDate.Date))
-                     {
-                         // Apply your highlighted style directly
-                         button.Background = Brushes.LightGreen;
-                         button.FontWeight = FontWeights.Bold;
-                     }
-                     else
-                     {
-                         // Reset to default style if it doesn't match
-                         button.ClearValue(Control.BackgroundProperty);
-                         button.ClearValue(Control.FontWeightProperty);
-                     }
-                 }
-             }*/
             Calendar calendar = target as Calendar;
             // Odepnij stare zdarzenie, aby uniknąć wycieków pamięci
             calendar.DisplayDateChanged -= Calendar_DisplayDateChanged;
@@ -69,8 +44,11 @@ namespace ExerciseManager.Commands
                 // musimy wymusić przerysowanie wyróżnień na nowej siatce dni.
                 // Czasami UI kalendarza potrzebuje ułamka sekundy na wygenerowanie przycisków dni,
                 // dlatego bezpiecznie jest wywołać odświeżenie przez Dispatcher.
-                calendar.Dispatcher.BeginInvoke(new Action(() => RefreshHighlights(calendar, e as IEnumerable<DateTime>)),
-                                                System.Windows.Threading.DispatcherPriority.Loaded);
+
+                //calendar.Dispatcher.BeginInvoke(new Action(() => RefreshHighlights(calendar, e as IEnumerable<DateTime>)),
+                //System.Windows.Threading.DispatcherPriority.Loaded);
+
+                RefreshHighlights(calendar, GetHighlightedDates(calendar));
             }
         }
 
