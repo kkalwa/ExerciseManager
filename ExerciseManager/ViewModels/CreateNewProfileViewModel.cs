@@ -1,4 +1,5 @@
 ﻿using ExerciseManager.Commands;
+using ExerciseManager.Cryptography;
 using ExerciseManager.Mediators;
 using ExerciseManager.Models;
 using ExerciseManager.Repositories;
@@ -78,6 +79,16 @@ namespace ExerciseManager.ViewModels
                 ErrorString = "Pomyślnie utworzono profil. Możesz się teraz zalogować";
             }
         }
+        private void HashPasswordAndConfirmCreatingProfile(object sender)
+        {
+            byte[] passwordHash = SecureStringManipulation.ConvertSecureStringToByteArray(PasswordSecureString);
+            byte[] passwordRepeatedHash = SecureStringManipulation.ConvertSecureStringToByteArray(PasswordRepeatedSecureString);
+            passwordHash = PasswordHashing.CalculateHash(passwordHash);
+            passwordRepeatedHash = PasswordHashing.CalculateHash(passwordRepeatedHash);
+            NewUserPassword = Convert.ToBase64String(passwordHash);
+            ConfirmCreatingProfile(sender);
+
+        }
         private bool CheckIfFormIsFilled(object sender)
         {
             return !string.IsNullOrEmpty(NewUserLogin) &&
@@ -95,7 +106,7 @@ namespace ExerciseManager.ViewModels
          * */
         public CreateNewProfileViewModel(ViewMediator viewMediator): base(viewMediator)
         {
-            ConfirmCreatingProfileCommand = new RelayCommand<object>(ConfirmCreatingProfile);
+            ConfirmCreatingProfileCommand = new RelayCommand<object>(HashPasswordAndConfirmCreatingProfile);
             CancelCommand = new RelayCommand<object>(Cancel);
             userRepository = new UserRepository();
             ErrorString = "Niech tutaj wyswietla sie status";

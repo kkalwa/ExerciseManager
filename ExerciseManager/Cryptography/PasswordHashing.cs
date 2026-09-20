@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Security.Cryptography;
 using System.Text;
 
 namespace ExerciseManager.Cryptography
@@ -8,7 +9,7 @@ namespace ExerciseManager.Cryptography
     {
         public static byte[] CalculateHash(byte[] inputBytes)
         {
-            SHA256Managed algorithm = new SHA256Managed();
+            SHA256 algorithm = SHA256.Create();
             algorithm.ComputeHash(inputBytes);
             return algorithm.Hash;
         }

@@ -1,10 +1,12 @@
 ﻿using ExerciseManager.Commands;
+using ExerciseManager.Cryptography;
 using ExerciseManager.Mediators;
 using ExerciseManager.Models;
 using ExerciseManager.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Net;
+using System.Security;
 using System.Security.Principal;
 using System.Text;
 using System.Windows.Input;
@@ -27,6 +29,7 @@ namespace ExerciseManager.ViewModels
         private string? login;
         private string? loginStatus;
         private bool startAnimation;
+        private SecureString encryptedPassword = new();
 
         /** Public properties used by views
          * 
@@ -55,6 +58,17 @@ namespace ExerciseManager.ViewModels
                 OnPropertyChanged();
             }
         }
+
+        public SecureString EncryptedPassword
+        {
+            get { return encryptedPassword; }
+            set
+            {
+                encryptedPassword = value;
+                OnPropertyChanged();
+            }
+        }
+
         //public string TitleText { get; } = "Zaloguj się";
         public RelayCommand<object> GoToUserPanelCommand { get; set; } //**************************************************** Remove later *****************************
         public ICommand InitiateLogInProcessCommand { get; set; }
@@ -69,7 +83,9 @@ namespace ExerciseManager.ViewModels
         }
         private void InitiateLoginProcess(object obj)
         {
-            var isValidUser = userRepository.AuthenticateUser(new NetworkCredential(Login, Password));
+            byte[] passwordHash = SecureStringManipulation.ConvertSecureStringToByteArray(EncryptedPassword);
+            passwordHash = PasswordHashing.CalculateHash(passwordHash);
+            var isValidUser = userRepository.AuthenticateUser(new NetworkCredential(Login, Convert.ToBase64String(passwordHash)));
 
             if (isValidUser)
             {
