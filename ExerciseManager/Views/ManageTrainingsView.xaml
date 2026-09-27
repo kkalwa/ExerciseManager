@@ -2,68 +2,89 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"         
              xmlns:local="clr-namespace:ExerciseManager.Views"
+             xmlns:commands="clr-namespace:ExerciseManager.Commands"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignHeight="450" d:DesignWidth="800"
+             Style ="{StaticResource GlobalBackgroundStyle}">
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="*"/>
+            <ColumnDefinition></ColumnDefinition>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
+            <RowDefinition Height="auto"></RowDefinition>
+            <RowDefinition Height="25"/>
+            <RowDefinition></RowDefinition>
         </Grid.RowDefinitions>
-            <StackPanel Grid.Column="0" Width="Auto">
-            <TextBlock Margin="5" Text="Wybierz zestawy do swojego treningu"/>
-            <ScrollViewer Width="auto" Height="300">
-            <ListBox  SelectedItem="{Binding SelectedItem}" ItemsSource="{Binding ExerciseSetsList}" BorderThickness="3">
-                <ListBox.ItemTemplate>
-                        <DataTemplate>
-                            <StackPanel Background="AliceBlue" Margin="10" Width="auto">
-                                
-                                    <TextBlock Text="{Binding ExerciseSetTitle}" Background="DarkOrange" TextAlignment="Center" FontSize="14" FontWeight="SemiBold"/>
-                                    
-                                <ItemsControl ItemsSource="{Binding Exercises}">
-                                    <ItemsControl.ItemTemplate>
-                                        <DataTemplate>
-                                            <TextBlock Text="{Binding ExerciseName}"/>
-                                        </DataTemplate>
-                                    </ItemsControl.ItemTemplate>
-                                </ItemsControl>
-                            </StackPanel>
-                        </DataTemplate>
-                    </ListBox.ItemTemplate>
-                </ListBox>
-            </ScrollViewer>
-        </StackPanel>
 
-        <Button Grid.Column="1" Content="Dodaj do treningu" Margin="5" Padding="5" Command="{Binding AddToTrainingCommand}"/>
+        <Border
+            Grid.Column="0"
+            Grid.Row="0"
+            Style="{StaticResource BackgroundBorderStyle}"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center">
+            <TextBlock 
+            
+                FontSize="20"
+                HorizontalAlignment="Center"
+                Text = "Wybierz ćwiczenia do swojego treningu"
+                />
+        </Border>
 
-        <StackPanel Grid.Column="2">
-            <TextBlock Margin="5" Text="Wybrałeś nastepujące zestawy:"/>
-            <ListBox   ItemsSource="{Binding SelectedExerciseSetsList}" BorderThickness="3" Width="auto">
-                <ListBox.ItemTemplate>
-                    <DataTemplate>
-                        <StackPanel Background="AliceBlue" Margin="10" Width="auto">
-                            <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="{Binding ExerciseSetTitle}" Background="DarkOrange" TextAlignment="Center" FontSize="14" FontWeight="SemiBold"/>
-                                <Button Content="+" Width="100"/>
-                            </StackPanel>
-                            <ItemsControl ItemsSource="{Binding Exercises}">
-                                <ItemsControl.ItemTemplate>
-                                    <DataTemplate>
-                                        <TextBlock Text="{Binding ExerciseName}"/>
-                                    </DataTemplate>
-                                </ItemsControl.ItemTemplate>
-                            </ItemsControl>
-                        </StackPanel>
-                    </DataTemplate>
-                </ListBox.ItemTemplate>
-            </ListBox>
-        </StackPanel>
-        <Button Grid.Row="1" Grid.Column="1" Content="Zatwierdź" Width="100" Height="30" Command="{Binding ConfirmTrainingCommand}"/>
+        <Border
+            Grid.Column="0"
+            Grid.Row="2"
+            Style="{StaticResource BackgroundBorderStyle}"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top">
+            <TreeView
+                ItemsSource="{Binding ExerciseSetsList}"
+                commands:MouseDoubleClickTreeView.Command="{Binding TreeViewDoubleClickExCommand}">
+                <TreeView.ItemContainerStyle>
+                    <Style TargetType="TreeViewItem">
+                        <Setter Property="IsExpanded" Value="True"/>
+                    </Style>
+                </TreeView.ItemContainerStyle>
+                <TreeView.ItemTemplate>
+                    <HierarchicalDataTemplate ItemsSource="{Binding Exercises}">
+                        <TextBlock Text="{Binding ExerciseSetTitle}" TextAlignment="Center" FontSize="14" FontWeight="SemiBold"/>
+                        <HierarchicalDataTemplate.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding ExerciseName}" />
+                            </DataTemplate>
+                        </HierarchicalDataTemplate.ItemTemplate>
+                    </HierarchicalDataTemplate>
+                </TreeView.ItemTemplate>
+            </TreeView>
+        </Border>
+
+        <Border
+            Grid.Column="0"
+            Grid.Row="2"
+            Style="{StaticResource BackgroundBorderStyle}"
+            HorizontalAlignment="Right"
+            VerticalAlignment="Top">
+            <TreeView
+                ItemsSource="{Binding ExerciseSetsList}"
+                commands:MouseDoubleClickTreeView.Command="{Binding TreeViewDoubleClickExCommand}">
+                <TreeView.ItemContainerStyle>
+                    <Style TargetType="TreeViewItem">
+                        <Setter Property="IsExpanded" Value="True"/>
+                    </Style>
+                </TreeView.ItemContainerStyle>
+                <TreeView.ItemTemplate>
+                    <HierarchicalDataTemplate ItemsSource="{Binding Exercises}">
+                        <TextBlock Text="{Binding ExerciseSetTitle}" TextAlignment="Center" FontSize="14" FontWeight="SemiBold"/>
+                        <HierarchicalDataTemplate.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding ExerciseName}" />
+                            </DataTemplate>
+                        </HierarchicalDataTemplate.ItemTemplate>
+                    </HierarchicalDataTemplate>
+                </TreeView.ItemTemplate>
+            </TreeView>
+        </Border>
+
     </Grid>
 </UserControl>

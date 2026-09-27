@@ -4,6 +4,11 @@
              xmlns:local="clr-namespace:ExerciseManager">
     <!--StartupUri="Views/MainWindow.xaml">-->
     <Application.Resources>
-         
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <!-- Ścieżka do Twojego pliku z kolorami -->
+                <ResourceDictionary Source="Resources/Colors.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
     </Application.Resources>
 </Application>

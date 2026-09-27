@@ -29,31 +29,21 @@
             </Style>
 
             <Style x:Key="BackgroundStyle" TargetType="{x:Type Border}">
-                <Setter Property="Background" Value="White">
-                    <!--<Setter.Value>
-                        <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
-                            <GradientStop Color="white"  Offset="0"/>
-                            <GradientStop Color="#FFE6EAED" Offset="1"/>
-                        </LinearGradientBrush>
-                    </Setter.Value>-->
-                </Setter>
+                <Setter Property="Background" Value="White"/>
                 <Setter Property="BorderThickness" Value="1"/>
                 <Setter Property="BorderBrush" Value="Gray"/>
                 <Setter Property="CornerRadius" Value="25"/>
                 <Setter Property="Padding" Value="10"/>
-
                 <Setter Property="Effect">
                     <Setter.Value>
-                    <DropShadowEffect Color="Black" 
+                        <DropShadowEffect Color="Black" 
                                         Direction="315" 
                                         BlurRadius="10" 
                                         ShadowDepth="4" 
-                                        Opacity="0.3"/> 
+                                        Opacity="0.3"/>
                     </Setter.Value>
                 </Setter>
-
             </Style>
-
         </Grid.Resources>
 
         <Grid.ColumnDefinitions>
@@ -70,7 +60,7 @@
                 HorizontalAlignment="Center">
             <Label 
                 Content="Zaloguj się" 
-                FontSize="40" 
+                FontSize="25" 
                 />
         </Border>
         <Border Grid.Row="1"
