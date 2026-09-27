@@ -9,12 +9,11 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
 
-
     <Grid>
         <Grid.Background>
             <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
-                <GradientStop Color="Peru"  Offset="0"/>
-                <GradientStop Color="Orange" Offset="1"/>
+                <GradientStop Color="#FFF3F4F6"  Offset="0"/>
+                <GradientStop Color="#FFF0F4F8" Offset="1"/>
             </LinearGradientBrush>
         </Grid.Background>
         <Grid.Resources>
@@ -28,61 +27,93 @@
                     </Setter.Value>
                 </Setter>
             </Style>
+
+            <Style x:Key="BackgroundStyle" TargetType="{x:Type Border}">
+                <Setter Property="Background" Value="White">
+                    <!--<Setter.Value>
+                        <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                            <GradientStop Color="white"  Offset="0"/>
+                            <GradientStop Color="#FFE6EAED" Offset="1"/>
+                        </LinearGradientBrush>
+                    </Setter.Value>-->
+                </Setter>
+                <Setter Property="BorderThickness" Value="1"/>
+                <Setter Property="BorderBrush" Value="Gray"/>
+                <Setter Property="CornerRadius" Value="25"/>
+                <Setter Property="Padding" Value="10"/>
+
+                <Setter Property="Effect">
+                    <Setter.Value>
+                    <DropShadowEffect Color="Black" 
+                                        Direction="315" 
+                                        BlurRadius="10" 
+                                        ShadowDepth="4" 
+                                        Opacity="0.3"/> 
+                    </Setter.Value>
+                </Setter>
+
+            </Style>
+
         </Grid.Resources>
 
         <Grid.ColumnDefinitions>
             <ColumnDefinition></ColumnDefinition>
-            <ColumnDefinition></ColumnDefinition>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"></RowDefinition>
+            <RowDefinition Height="25"/>
             <RowDefinition></RowDefinition>
         </Grid.RowDefinitions>
 
-        <Label Grid.Column="0" Grid.ColumnSpan="2" Content="Zaloguj się" FontSize="40" HorizontalAlignment="Center">
-            
-        </Label>
-
-
-        <StackPanel Grid.Column="0" Grid.Row="1">
-            <Label HorizontalContentAlignment="Right" Content="Podaj nazwę użytkownika:"/>
-            <Label HorizontalContentAlignment="Right" Content="Podaj haslo:"/>
-
-        </StackPanel>
-
-        <Image Grid.Column="0" Grid.Row="1" 
-               Opacity="1" 
-               HorizontalAlignment="Center"
-               VerticalAlignment="Center"
-               Source="/Images/Logo_NoBackground.png"/>
-
-        <StackPanel Grid.Column="1" 
-                    Grid.Row="1"
-                    HorizontalAlignment="Left"
-                    >
-            <TextBox Margin="5" 
-                     Width="100" 
-                     Text="{Binding Login}"/>
-            
-            <PasswordBox Margin="5" 
-                         Width="100" 
-                         commands:PasswordBoxExtender.EncryptedPassword="{Binding EncryptedPassword, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                         />
-            
-            <Button Margin="5" 
-                Height="20" 
-                Content="Zaloguj"
-                    Width="120"
-                Command="{Binding InitiateLogInProcessCommand}"
+        <Border Style="{StaticResource BackgroundStyle}"
+                Grid.Column="0"
+                HorizontalAlignment="Center">
+            <Label 
+                Content="Zaloguj się" 
+                FontSize="40" 
                 />
-            
-            <Label HorizontalAlignment="Left" Content="{Binding LoginStatus}"/>
-            <Label  Content="...lub utwórz nowy profil" HorizontalAlignment="Center"/>
-            <Button  Height="20" Width="100" Content="Stwórz profil" HorizontalAlignment="Center"
-                Command="{Binding CreateProfileCommand}">
-            </Button>
-            
-        </StackPanel>
+        </Border>
+        <Border Grid.Row="1"
+                Style="{StaticResource BackgroundStyle}">
+            <TextBlock Text="Bledne dane logowania" Foreground="Red"
+                        Grid.Row="1"
+                        HorizontalAlignment="Center"
+                        Visibility="{Binding LoginStatusVisibility}"/>
+        </Border>
+        <Image Grid.Column="0" Grid.Row="2" 
+               Opacity="0.6" 
+               HorizontalAlignment="Center"
+               VerticalAlignment="Top"
+               Source="/Images/Logo_NoBackground.png"/>
         
+        <Border Grid.Column="0" 
+                Grid.Row="2"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Top"
+                Style="{StaticResource BackgroundStyle}">
+
+                <StackPanel>
+                    <TextBox Margin="5" 
+                         Width="100" 
+                         Text="{Binding Login}"/>
+
+                    <PasswordBox Margin="5" 
+                             Width="100" 
+                             commands:PasswordBoxExtender.EncryptedPassword="{Binding EncryptedPassword, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+
+                    <Button Margin="5" 
+                    Height="20" 
+                    Content="Zaloguj"
+                    Width="120"
+                    Command="{Binding InitiateLogInProcessCommand}"/>
+
+                    <Label HorizontalAlignment="Left" Content="{Binding LoginStatus}"/>
+                    <Label  Content="...lub utwórz nowy profil" HorizontalAlignment="Center"/>
+                    <Button  Height="20" Width="100" Content="Stwórz profil" HorizontalAlignment="Center"
+                    Command="{Binding CreateProfileCommand}">
+                    </Button>
+
+                </StackPanel>
+            </Border>
     </Grid>
 </UserControl>
