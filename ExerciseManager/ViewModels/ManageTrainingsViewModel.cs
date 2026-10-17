@@ -44,7 +44,20 @@ namespace ExerciseManager.ViewModels
             }
         }
 
-       
+       public string SelectedExercisesVisible
+        {
+            get
+            {
+                if (SelectedExerciseSetsList.Count > 0)
+                {
+                    return "Visible";
+                }
+                else
+                {
+                    return "Hidden";
+                }
+            }
+        }
         public DBRepository DBRepository { get; private set; }
 
         public ICommand AddToTrainingCommand { get; set; }
@@ -56,76 +69,71 @@ namespace ExerciseManager.ViewModels
         public ManageTrainingsViewModel(ViewMediator viewMediator) : base(viewMediator) 
         {
             DBRepository = new DBRepository();
-            AddToTrainingCommand = new RelayCommand<object>(AddToTraining);
             ConfirmTrainingCommand =  new RelayCommand<object>(ConfirmTraining);
             TreeViewDoubleClickCommand = new RelayCommand<object>(OnTreeViewDoubleClicked);
             TreeViewDoubleClickExCommand = new RelayCommand<object>(OnTreeViewDoubleClickEx);
             PrepareExerciseSetsList();
         }
         
-        private void AddToTraining(object obj)
-        {
-            if (SelectedItem != null)
-            {
-                SelectedExerciseSetsList.Add(SelectedItem);
-                SelectedItem = null;
-            }
-            
-        }
-
         private void ConfirmTraining(object obj)
         {
-            viewMediator.StoreData("SELECTED_SETS", SelectedExerciseSetsList);
-            viewMediator.ViewModelParent.ChangeChildViewModel("CurrentTrainingViewModel");
+            viewMediator.StoreData("ACTUAL_EXERCISES", SelectedExerciseSetsList);
+            viewMediator.ViewModelParent.ChangeChildViewModel("ManageCurrentTrainingViewModel");
         }
 
         public void OnTreeViewDoubleClicked(object sender)
         {
-            if (isSelectedSetAlreadyInCollection())
+            if (sender is ExerciseSetModel selectedExerciseSet)
             {
-                appendExerciseToExistingSet();
-            }
-            else
+                //Should I do anything in this case?
+            }else if (sender is ExerciseModel selectedExercise)
             {
-                addExerciseSetToCollection();
-                appendExerciseToExistingSet();
-            }
-        }
-
-        private bool isSelectedSetAlreadyInCollection()
-        {
-            foreach (var exerciseSet in SelectedExerciseSetsList)
-            {
-                if (exerciseSet.ExerciseSetTitle == SelectedExerciseSet.ExerciseSetTitle)
-                    return true;
-            }
-
-            return false;
-        }
-
-        private void appendExerciseToExistingSet()
-        {
-            foreach (var exerciseSet in ActualExercisesForTraining)
-            {
-                if (exerciseSet.ExerciseSetTitle == SelectedExerciseSet.ExerciseSetTitle)
+                if (isSetOfExerciseAlreadyInSelectedSets(selectedExercise))
                 {
-                    exerciseSet.Exercises.Add(SelectedExercise);
-                    break;
+                    appendExerciseToAppropriateSetInSelectedSets(selectedExercise);
+                }
+                else
+                {
+                    addExerciseSetToSelectedSets(selectedExercise);
+                    appendExerciseToAppropriateSetInSelectedSets(selectedExercise);
                 }
             }
         }
 
-        private void addExerciseSetToCollection()
+        private void addExerciseSetToSelectedSets(ExerciseModel selectedExercise)
         {
-            ActualExercisesForTraining.Add(new ExerciseSetModel()
+            SelectedExerciseSetsList.Add(new ExerciseSetModel()
             {
-                IdExerciseSet = SelectedExerciseSet.IdExerciseSet,
-                IdUser = SelectedExerciseSet.IdUser,
-                ExerciseSetTitle = SelectedExerciseSet.ExerciseSetTitle
+                IdExerciseSet = selectedExercise.IdExerciseSet,
+                IdUser = viewMediator.CurrentUser.Id,
+                ExerciseSetTitle = exerciseSetsList[findSetIndexByExercise(selectedExercise)].ExerciseSetTitle
             });
         }
-    }
 
+        private void appendExerciseToAppropriateSetInSelectedSets(ExerciseModel selectedExercise)
+        {
+            foreach(ExerciseSetModel currentSet in SelectedExerciseSetsList)
+            {
+                if(currentSet.IdExerciseSet == selectedExercise.IdExerciseSet)
+                {
+                    currentSet.Exercises.Add(selectedExercise);
+                    break;
+                }
+            }
+            OnPropertyChanged(nameof(SelectedExercisesVisible));
+        }
+
+        private bool isSetOfExerciseAlreadyInSelectedSets(ExerciseModel selectedExercise)
+        {
+            foreach (ExerciseSetModel currentSet in SelectedExerciseSetsList)
+            {
+                if (currentSet.IdExerciseSet == selectedExercise.IdExerciseSet)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
 
         private void OnTreeViewDoubleClickEx(object obj)
         {
@@ -133,10 +141,11 @@ namespace ExerciseManager.ViewModels
             {
                 //removeExerciseFromList(obj as ExerciseModel);
                 int index = findSetIndexByExercise(obj as ExerciseModel);
-                ExerciseSetsList[index].Exercises.Remove(obj as ExerciseModel);
-                if (ExerciseSetsList[index].Exercises.Count == 0)
+                SelectedExerciseSetsList[index].Exercises.Remove(obj as ExerciseModel);
+                if (SelectedExerciseSetsList[index].Exercises.Count == 0)
                 {
-                    ExerciseSetsList.RemoveAt(index);
+                    SelectedExerciseSetsList.RemoveAt(index);
+                    OnPropertyChanged(nameof(SelectedExercisesVisible));
                 }
             }
             else if (obj is ExerciseSetModel)
@@ -159,15 +168,15 @@ namespace ExerciseManager.ViewModels
 
         private void removeEntireSetFromList(ExerciseSetModel exerciseSetModel)
         {
-            foreach (var exerciseSet in ExerciseSetsList)
+            foreach (var exerciseSet in SelectedExerciseSetsList)
             {
                 if (exerciseSet == exerciseSetModel)
                 {
-                    ExerciseSetsList.Remove(exerciseSet);
-
+                    SelectedExerciseSetsList.Remove(exerciseSet);
                     break;
                 }
             }
+            OnPropertyChanged(nameof(SelectedExercisesVisible));
         }
 
         private void PrepareExerciseSetsList()

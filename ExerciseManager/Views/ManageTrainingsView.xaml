@@ -13,9 +13,10 @@
             <ColumnDefinition></ColumnDefinition>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="auto"></RowDefinition>
+            <RowDefinition Height="auto"/>
             <RowDefinition Height="25"/>
-            <RowDefinition></RowDefinition>
+            <RowDefinition/>
+            <RowDefinition Height="20"/>
         </Grid.RowDefinitions>
 
         <Border
@@ -25,7 +26,6 @@
             HorizontalAlignment="Center"
             VerticalAlignment="Center">
             <TextBlock 
-            
                 FontSize="20"
                 HorizontalAlignment="Center"
                 Text = "Wybierz ćwiczenia do swojego treningu"
@@ -40,7 +40,7 @@
             VerticalAlignment="Top">
             <TreeView
                 ItemsSource="{Binding ExerciseSetsList}"
-                commands:MouseDoubleClickTreeView.Command="{Binding TreeViewDoubleClickExCommand}">
+                commands:MouseDoubleClickTreeView.Command="{Binding TreeViewDoubleClickCommand}">
                 <TreeView.ItemContainerStyle>
                     <Style TargetType="TreeViewItem">
                         <Setter Property="IsExpanded" Value="True"/>
@@ -64,9 +64,10 @@
             Grid.Row="2"
             Style="{StaticResource BackgroundBorderStyle}"
             HorizontalAlignment="Right"
-            VerticalAlignment="Top">
+            VerticalAlignment="Top"
+            Visibility="{Binding SelectedExercisesVisible}">
             <TreeView
-                ItemsSource="{Binding ExerciseSetsList}"
+                ItemsSource="{Binding SelectedExerciseSetsList}"
                 commands:MouseDoubleClickTreeView.Command="{Binding TreeViewDoubleClickExCommand}">
                 <TreeView.ItemContainerStyle>
                     <Style TargetType="TreeViewItem">
@@ -85,6 +86,15 @@
                 </TreeView.ItemTemplate>
             </TreeView>
         </Border>
-
+        
+        <Button
+            Grid.Column="1"
+            Grid.Row="2"
+            HorizontalAlignment="Right"
+            VerticalAlignment="Center"
+            Visibility="{Binding SelectedExercisesVisible}"
+            Content="Dodaj do treningu"
+            Command="{Binding ConfirmTrainingCommand}"
+            />
     </Grid>
 </UserControl>
