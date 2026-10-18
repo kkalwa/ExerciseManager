@@ -12,7 +12,7 @@ namespace ExerciseManager.ViewModels
 {
     public class ManageTrainingsViewModel: BaseViewModel
     {
-        private ObservableCollection<ExerciseSetModel> exerciseSetsList;
+        private ObservableCollection<ExerciseSetModel> exerciseSetsList = [];
         public ObservableCollection<ExerciseSetModel> ExerciseSetsList
         {
             get { return exerciseSetsList; }
@@ -22,7 +22,7 @@ namespace ExerciseManager.ViewModels
                 OnPropertyChanged();
             }
         }
-        private ObservableCollection<ExerciseSetModel> selectedExerciseSetsList = new();
+        private ObservableCollection<ExerciseSetModel> selectedExerciseSetsList = [];
         public ObservableCollection<ExerciseSetModel> SelectedExerciseSetsList
         {
             get { return selectedExerciseSetsList; }
@@ -182,7 +182,34 @@ namespace ExerciseManager.ViewModels
         private void PrepareExerciseSetsList()
         {
             List<ManageExercisesModel> list = DBRepository.GetExercisesBasedOnUserId(viewMediator.CurrentUser.Id);
-            List<string> listOfSetIds = DBRepository.GetDistinctIdSetsForUser(viewMediator.CurrentUser.Id);
+            List<string> distinctIdSetNumbers = list.
+                Select(e => e.IdExerciseSet).
+                Distinct().
+                ToList();
+
+            foreach(string idSet in distinctIdSetNumbers)
+            {
+                List<ExerciseModel> exercisesInSet = list.
+                                        Where(e => e.IdExerciseSet == idSet).
+                    Select(e => new ExerciseModel()
+                    {
+                        IdExercise = e.IdExercise,
+                        ExerciseName = e.ExerciseName,
+                        IdExerciseSet = e.IdExerciseSet,
+                        Description = e.Description,
+                        ExerciseWeights = new ObservableCollection<MutableStringValue>(e.ExerciseWeights)
+                    }).
+                    ToList();
+                
+                ExerciseSetsList.Add(new ExerciseSetModel()
+                {
+                    IdExerciseSet = idSet,
+                    IdUser = viewMediator.CurrentUser.Id,
+                    ExerciseSetTitle = list.Where(e => e.IdExerciseSet == idSet).Select(e => e.ExerciseSetTitle).FirstOrDefault(),
+                    Exercises = new ObservableCollection<ExerciseModel>(exercisesInSet)
+                });
+            }
+            /*List<string> listOfSetIds = DBRepository.GetDistinctIdSetsForUser(viewMediator.CurrentUser.Id);
             ObservableCollection<ExerciseSetModel> listOfExerciseSets = new();
 
             foreach (var element in listOfSetIds)
@@ -206,7 +233,7 @@ namespace ExerciseManager.ViewModels
                 }
                 listOfExerciseSets.Add(newEntry);
             }
-            ExerciseSetsList = listOfExerciseSets;
+            ExerciseSetsList = listOfExerciseSets;*/
         }
 
         

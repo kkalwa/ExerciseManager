@@ -12,8 +12,7 @@ namespace ExerciseManager.Models
         public string IdExerciseSet { get; set; }
         public string IdExercise { get; set; }
         public string ExerciseName { get; set; }
-        
-    
-        public string[] ExerciseWeights { get; set; } = new string[maxWeights];
+        public MutableStringValue Description{ get; set; }
+        public MutableStringValue[] ExerciseWeights { get; set; } = new MutableStringValue[maxWeights];
     }
 }

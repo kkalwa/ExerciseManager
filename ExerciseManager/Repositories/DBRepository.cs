@@ -50,6 +50,7 @@ namespace ExerciseManager.Repositories
                     "[dbo].[Exercises].[Id_ExerciseSet], \r\n" +
                     "[dbo].[Exercises].[Id_Exercise], \r\n" +
                     "[dbo].[Exercises].[Exercise_Name], \r\n" +
+                    "[dbo].[Exercises].[Description], \r\n" +
                     "[dbo].[Exercises].[Weight1],\r\n" +
                     "[dbo].[Exercises].[Weight2],\r\n" +
                     "[dbo].[Exercises].[Weight3],\r\n" +
@@ -73,12 +74,15 @@ namespace ExerciseManager.Repositories
                             IdExercise = reader["Id_Exercise"].ToString(),
                             ExerciseName = reader["Exercise_Name"].ToString()
                         };
-
-                        newEntry.ExerciseWeights[0] = reader["Weight1"].ToString();
-                        newEntry.ExerciseWeights[1] = reader["Weight2"].ToString();
-                        newEntry.ExerciseWeights[2] = reader["Weight3"].ToString();
-                        newEntry.ExerciseWeights[3] = reader["Weight4"].ToString();
-                        newEntry.ExerciseWeights[4] = reader["Weight5"].ToString();
+                        if (!reader.IsDBNull(reader.GetOrdinal("Description")))
+                        {
+                            newEntry.Description = new MutableStringValue(reader["Description"].ToString());
+                        }
+                        newEntry.ExerciseWeights[0] = new MutableStringValue(reader["Weight1"].ToString());
+                        newEntry.ExerciseWeights[1] = new MutableStringValue(reader["Weight2"].ToString());
+                        newEntry.ExerciseWeights[2] = new MutableStringValue(reader["Weight3"].ToString());
+                        newEntry.ExerciseWeights[3] = new MutableStringValue(reader["Weight4"].ToString());
+                        newEntry.ExerciseWeights[4] = new MutableStringValue(reader["Weight5"].ToString());
 
                         output.Add(newEntry);
                     }
@@ -110,11 +114,11 @@ namespace ExerciseManager.Repositories
                             ExerciseName = reader["Exercise_Name"].ToString(),
                         };
 
-                        newEntry.ExerciseWeights[0] = reader["Weight1"].ToString();
-                        newEntry.ExerciseWeights[1] = reader["Weight2"].ToString();
-                        newEntry.ExerciseWeights[2] = reader["Weight3"].ToString();
-                        newEntry.ExerciseWeights[3] = reader["Weight4"].ToString();
-                        newEntry.ExerciseWeights[4] = reader["Weight5"].ToString();
+                        newEntry.ExerciseWeights[0] = new MutableStringValue(reader["Weight1"].ToString());
+                        newEntry.ExerciseWeights[1] = new MutableStringValue(reader["Weight2"].ToString());
+                        newEntry.ExerciseWeights[2] = new MutableStringValue(reader["Weight3"].ToString());
+                        newEntry.ExerciseWeights[3] = new MutableStringValue(reader["Weight4"].ToString());
+                        newEntry.ExerciseWeights[4] = new MutableStringValue(reader["Weight5"].ToString());
 
                         output.Add(newEntry);
                     }
