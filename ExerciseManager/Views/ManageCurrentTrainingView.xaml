@@ -23,7 +23,7 @@
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <StackPanel Background="AliceBlue" Width="auto">
-                        <TextBlock Text="{Binding ExerciseSetTitle}" Background="DarkOrange" TextAlignment="Center" FontSize="14" FontWeight="SemiBold"/>
+                        <TextBlock Text="{Binding ExerciseSetTitle}" Background="Gray" TextAlignment="Center" FontSize="14" FontWeight="SemiBold"/>
                         <ListBox ItemsSource="{Binding Exercises}"> <!-- Exercises start here -->
                             <ListBox.ItemsPanel>
                                 <ItemsPanelTemplate>
@@ -48,7 +48,7 @@
                                                 </DataTemplate>
                                             </ListBox.ItemTemplate>
                                         </ListBox>
-                                        <TextBox Text="{Binding Description.Value}" 
+                                        <TextBox Text="{Binding Description}" 
                                                  Width="200"/>
                                     </WrapPanel>
                                 </DataTemplate>
@@ -58,6 +58,12 @@
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>
-        <Button Content="Zapisz trening" Grid.Row="1" Height="Auto" Width="Auto" Command="{Binding SaveTrainingCommand}"/>
+        <Button Content="Zapisz trening" 
+                Grid.Row="1"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Height="Auto" 
+                Width="Auto" 
+                Command="{Binding SaveTrainingCommand}"/>
     </Grid>
 </UserControl>

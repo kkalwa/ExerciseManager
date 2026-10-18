@@ -9,12 +9,12 @@
              d:DesignHeight="450" d:DesignWidth="800"
              Style ="{StaticResource GlobalBackgroundStyle}">
     <Grid>
-        <Grid.Background>
+        <!--<Grid.Background>
             <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
                 <GradientStop Color="Peru"  Offset="0"/>
                 <GradientStop Color="Orange" Offset="1"/>
             </LinearGradientBrush>
-        </Grid.Background>
+        </Grid.Background>-->
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="auto"/>
             <ColumnDefinition Width="*"/>
