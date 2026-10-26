@@ -48,7 +48,7 @@
                                                 </DataTemplate>
                                             </ListBox.ItemTemplate>
                                         </ListBox>
-                                        <TextBox Text="{Binding Description}" 
+                                        <TextBox Text="{Binding Description.Value}" 
                                                  Width="200"/>
                                     </WrapPanel>
                                 </DataTemplate>

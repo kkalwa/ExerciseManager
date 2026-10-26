@@ -26,11 +26,17 @@ namespace ExerciseManager.ViewModels
         {
             try
             {
-                var selectedTraining = trainingsCollection.First(p => p.Date.Date == SelectedDate.Date);
-                TrainingListVisibility = "Visible";
-                SelectedExercises = new ObservableCollection<ExerciseModel>(selectedTraining.Exercises);
+                FilteredTrainingsCollection = new ObservableCollection<TrainingHistoryModel>(trainingsCollection.Where(p => p.Date.Date == SelectedDate.Date));
+                if (FilteredTrainingsCollection.Any())
+                {
+                    TrainingListVisibility = "Visible";
+                }
+                else
+                {
+                    TrainingListVisibility = "Collapsed";
+                }
             }
-            catch(InvalidOperationException)
+            catch (InvalidOperationException)
             {
                 TrainingListVisibility = "Collapsed";
                 SelectedExercises = new ObservableCollection<ExerciseModel>();
@@ -80,6 +86,18 @@ namespace ExerciseManager.ViewModels
                 OnPropertyChanged();
             }
         }
+
+        private ObservableCollection<TrainingHistoryModel> filteredTrainingsCollection=[];
+        public ObservableCollection<TrainingHistoryModel> FilteredTrainingsCollection
+        {
+            get { return filteredTrainingsCollection; }
+            set
+            {
+                filteredTrainingsCollection = value;
+                OnPropertyChanged();
+            }
+        }
+
         private ObservableCollection<ExerciseModel> selectedExercises;
         public ObservableCollection<ExerciseModel> SelectedExercises
         {

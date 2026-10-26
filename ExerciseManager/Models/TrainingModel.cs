@@ -10,6 +10,19 @@ namespace ExerciseManager.Models
         public ObservableCollection<ExerciseSetModel> ExerciseList { get;  }
         public DateTime Date { get;  } 
         public string IdUser { get=>ExerciseList.First().IdUser; }
+
+        public List<ExerciseModel> GetOnlyExercises()
+        {
+            List<ExerciseModel> output = [];
+            foreach(ExerciseSetModel ExerciseSet in ExerciseList)
+            {
+                foreach (ExerciseModel Exercise in ExerciseSet.Exercises)
+                {
+                    output.Add(Exercise);
+                }
+            }
+            return output;
+        }
     
         public TrainingModel(DateTime Date,ObservableCollection<ExerciseSetModel> ExerciseList) 
         { 

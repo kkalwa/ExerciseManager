@@ -77,6 +77,9 @@ namespace ExerciseManager.Repositories
                         if (!reader.IsDBNull(reader.GetOrdinal("Description")))
                         {
                             newEntry.Description = new MutableStringValue(reader["Description"].ToString());
+                        }else
+                        {
+                            newEntry.Description = MutableStringValue.Empty;
                         }
                         newEntry.ExerciseWeights[0] = new MutableStringValue(reader["Weight1"].ToString());
                         newEntry.ExerciseWeights[1] = new MutableStringValue(reader["Weight2"].ToString());

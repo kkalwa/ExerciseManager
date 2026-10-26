@@ -12,7 +12,6 @@ namespace ExerciseManager.Repositories
     {
         public void AddTraining(TrainingModel trainingModel)
         {
-            
             using (var connection = GetConnection())
             using (var command = new SqlCommand())
             {
@@ -50,6 +49,36 @@ namespace ExerciseManager.Repositories
                     throw;
                 }
                 connection.Close();
+            }
+
+            List<ExerciseModel> exercises = trainingModel.GetOnlyExercises();
+            foreach(ExerciseModel exercise in exercises)
+            {
+                UpdateExerciseWeightsAndDescription(exercise.IdExercise, exercise.ExerciseWeights.ToArray(), exercise.Description);
+            }
+
+
+        }
+
+        public void UpdateExerciseWeightsAndDescription( string IdExercise, MutableStringValue[] NewWeights, MutableStringValue NewDescription)
+        {
+            using (var connection = GetConnection())
+            using (var command = new SqlCommand())
+            {
+                connection.Open();
+                command.Connection = connection;
+                command.CommandText = "UPDATE dbo.Exercises " +
+                    "SET Weight1 = @weight1, Weight2 = @weight2, Weight3 = @weight3, Weight4 = @weight4, Weight5 = @weight5, " +
+                    "Description = @description " +
+                    "WHERE Id_Exercise = @id_exercises";
+                command.Parameters.Add("@weight1", SqlDbType.Float).Value = NewWeights[0].Value;
+                command.Parameters.Add("@weight2", SqlDbType.Float).Value = NewWeights[1].Value;
+                command.Parameters.Add("@weight3", SqlDbType.Float).Value = NewWeights[2].Value;
+                command.Parameters.Add("@weight4", SqlDbType.Float).Value = NewWeights[3].Value;
+                command.Parameters.Add("@weight5", SqlDbType.Float).Value = NewWeights[4].Value;
+                command.Parameters.Add("@description", SqlDbType.VarChar).Value = NewDescription.Value;
+                command.Parameters.Add("@id_exercises", SqlDbType.Int).Value = Int32.Parse(IdExercise);
+                command.ExecuteNonQuery();
             }
         }
 

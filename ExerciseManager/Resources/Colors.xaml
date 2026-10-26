@@ -16,7 +16,7 @@
         <Setter Property="BorderThickness" Value="1"/>
         <Setter Property="BorderBrush" Value="Gray"/>
         <Setter Property="CornerRadius" Value="25"/>
-        <Setter Property="Padding" Value="10"/>
+        <Setter Property="Padding" Value="15"/>
         <Setter Property="Effect">
             <Setter.Value>
                 <DropShadowEffect Color="Black" 

@@ -37,22 +37,37 @@
 
         <StackPanel
             Grid.Column="1">
-            
+
             <TextBlock
                 HorizontalAlignment="Center"
                 VerticalAlignment="Top"
                 Text="{Binding SelectedDate, StringFormat='{}{0:dd/MM/yyyy}'}">
             </TextBlock>
 
-            <ListView 
-                ItemsSource="{Binding SelectedExercises}"
+            <TextBlock
+                Text="Tego dnia zapisałeś następujące treningi:"
+                Visibility="{Binding TrainingListVisibility}"/>
+
+            <TreeView
+                ItemsSource="{Binding FilteredTrainingsCollection}"
                 Visibility="{Binding TrainingListVisibility}">
-                <ListView.ItemTemplate>
-                    <DataTemplate>
-                        <TextBlock Text="{Binding ExerciseName}" />  
-                    </DataTemplate>
-                </ListView.ItemTemplate>
-            </ListView>
+                
+                <TreeView.ItemContainerStyle>
+                    <Style TargetType="TreeViewItem">
+                        <Setter Property="IsExpanded" Value="True"/>
+                    </Style>
+                </TreeView.ItemContainerStyle>
+                <TreeView.ItemTemplate>
+                    <HierarchicalDataTemplate ItemsSource="{Binding Exercises}">
+                        <TextBlock Text="{Binding Date, StringFormat='{}{0:HH:mm}'}" TextAlignment="Center" FontSize="14" FontWeight="SemiBold"/>
+                        <HierarchicalDataTemplate.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding ExerciseName}" />
+                            </DataTemplate>
+                        </HierarchicalDataTemplate.ItemTemplate>
+                    </HierarchicalDataTemplate>
+                </TreeView.ItemTemplate>
+            </TreeView>
 
         </StackPanel>
         
