@@ -13,7 +13,7 @@ namespace ExerciseManager.ViewModels
 {
     public class CreateNewSetViewModel : BaseViewModel
     {
-        private ObservableCollection<ExerciseModel> exercises = new();
+        private ObservableCollection<ExerciseModel> exercises = [];
         public ObservableCollection<ExerciseModel> Exercises
         {
             get { return exercises; }
@@ -47,7 +47,8 @@ namespace ExerciseManager.ViewModels
 
         public ICommand AddExerciseCommand { get; set; }
         public ICommand AddNewLineCommand { get; set; }
-        public ICommand RemoveLineCommand { get; set; }
+        public ICommand RemoveLineCommand { get; set; } //Remove or edit later
+        public ICommand RemoveExerciseCommand { get; set; }
         private IDBRepository Repository = new DBRepository();
 
         public CreateNewSetViewModel(ViewMediator viewMediator) : base(viewMediator)
@@ -57,7 +58,21 @@ namespace ExerciseManager.ViewModels
             AddExerciseCommand = new RelayCommand<object>(AddExercise);
             AddNewLineCommand = new RelayCommand<object>(AddNewLine);
             RemoveLineCommand = new RelayCommand<object>(RemoveLine);
+            RemoveExerciseCommand = new RelayCommand<object>(RemoveExercise);
         }
+
+        private void RemoveExercise(object obj)
+        {
+            if (obj is ExerciseModel exercise)
+            {
+                Exercises.Remove(exercise);
+                if(Exercises.Count == 0)
+                {
+                    Exercises.Add(new ExerciseModel());
+                }
+            }
+        }
+
         private void AddExercise(object sender)
         {
             ExerciseSetModel newExerciseSet = new()
@@ -87,7 +102,10 @@ namespace ExerciseManager.ViewModels
 
         private void AddNewLine(object sender)
         {
-            Exercises.Add(new ExerciseModel());
+            if(!string.IsNullOrEmpty(Exercises.Last().ExerciseName))
+            {
+                Exercises.Add(new ExerciseModel());
+            }
         }
 
         private void RemoveLine(object sender)

@@ -9,12 +9,7 @@
              d:DesignHeight="450" d:DesignWidth="800"
              Style ="{StaticResource GlobalBackgroundStyle}">
     <Grid>
-        <!--<Grid.Background>
-            <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
-                <GradientStop Color="Peru"  Offset="0"/>
-                <GradientStop Color="Orange" Offset="1"/>
-            </LinearGradientBrush>
-        </Grid.Background>-->
+        
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="auto"/>
             <ColumnDefinition Width="*"/>
@@ -26,10 +21,28 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <TextBlock Grid.Column="1" Grid.Row="0" Margin="5" FontSize="20" Text="Witaj w panelu użytkownika" TextAlignment="Right"/>
-        <Button Grid.Column="2" Grid.Row="0" Margin="5" Content="Wyloguj się" Padding="5" Command="{Binding LogOutCommand}"/>
-       <!-- <UserControl Grid.Column="1" Grid.Row="1" Margin="5" Content="{Binding CurrentUserManageExercises, Mode=TwoWay}"/>
-        <UserControl Grid.Column="1" Grid.Row="1" Margin="5" Content="{Binding CurrentUserHistory}"/>-->
+        <Rectangle
+            Grid.Column="0"
+            Grid.Row="0"
+            Grid.ColumnSpan="4"
+            Fill="#FFFFFF"/>
+
+        <TextBlock 
+            Grid.Column="1" 
+            Grid.Row="0" 
+            Margin="5" 
+            FontSize="20" 
+            Text="Witaj w panelu użytkownika" 
+            TextAlignment="Right"
+            Background="#FFFFFF"/>
+        <Button 
+            Grid.Column="2"
+            Grid.Row="0" 
+            Margin="5" 
+            Content="Wyloguj się" 
+            Padding="5" 
+            Command="{Binding LogOutCommand}"/>
+       
         <ContentControl Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="2" Content="{Binding CurrentUserControl}" >
             <ContentControl.Resources>
                 <DataTemplate DataType="{x:Type viewmodels:ManageExercisesViewModel}">
@@ -52,7 +65,10 @@
                 </DataTemplate>
             </ContentControl.Resources>
         </ContentControl>
-        <StackPanel Grid.Column="0" Grid.Row="1">
+        <StackPanel 
+            Grid.Column="0" 
+            Grid.Row="1"
+            Background="#FFFFFF">
             <Button Content="Zarządzaj ćwiczeniami" Margin="5" Command="{Binding ManageExercisesCommand}"/>
             <Button Content="Historia" Margin="5" Command="{Binding CheckHistoryCommand}"/>
             <Button Content="Dodaj trening" Margin="5" Command="{Binding AddNewTrainingCommand}"/>

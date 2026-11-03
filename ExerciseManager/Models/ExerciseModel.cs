@@ -34,7 +34,7 @@ namespace ExerciseManager.Models
         {
              for (int i = 0; i < maxWeights; i++)
              {
-                    ExerciseWeights.Add(new MutableStringValue("10"));
+                    ExerciseWeights.Add(new MutableStringValue("0"));
              }
             Description.Value = "Description";
         }

@@ -8,7 +8,9 @@
              d:DesignHeight="450" d:DesignWidth="800">
     <StackPanel>
         <Button Content="Dodaj nowy zestaw ćwiczeń" Margin="10" Padding="5"  HorizontalAlignment="Left" Command="{Binding OpenAddNewSetCommand}"/>
-        <ItemsControl ItemsSource="{Binding OutputList}" BorderThickness="3">
+        <ItemsControl 
+            ItemsSource="{Binding OutputList}" 
+            BorderThickness="3">
         <ItemsControl.ItemsPanel>
             <ItemsPanelTemplate>
                 <WrapPanel Orientation="Horizontal" />
@@ -16,17 +18,37 @@
         </ItemsControl.ItemsPanel>
         <ItemsControl.ItemTemplate>
             <DataTemplate>
-                <StackPanel Background="AliceBlue"
-                            Margin="10">
-                    <TextBlock Text="{Binding ExerciseSetTitle}" Background="DarkOrange" TextAlignment="Center" FontSize="14" FontWeight="SemiBold"/>
+                <StackPanel Background="White"
+                            Margin="10"
+                            >
+                    <TextBlock 
+                        Text="{Binding ExerciseSetTitle}" 
+                        Background="DarkOrange" 
+                        TextAlignment="Center" 
+                        FontSize="14" 
+                        FontWeight="SemiBold"
+                        />
                     <ItemsControl ItemsSource="{Binding Exercises}">
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
-                                <TextBlock Text="{Binding ExerciseName}"/>
+                                <TextBlock
+                                    Padding="10, 0, 10, 0"
+                                    VerticalAlignment="Top"
+                                    Text="{Binding ExerciseName}"/>
                             </DataTemplate>
                         </ItemsControl.ItemTemplate>
                     </ItemsControl>
-                </StackPanel>
+                        <Border
+                            BorderBrush="Black"
+                            BorderThickness="1">
+                        <StackPanel
+                            Orientation="Horizontal"
+                            HorizontalAlignment="Center">
+                            <Button Content="Edytuj"></Button>
+                            <Button Content="Usuń"></Button>
+                        </StackPanel>
+                        </Border>
+                    </StackPanel>
             </DataTemplate>
         </ItemsControl.ItemTemplate>
     </ItemsControl>
