@@ -8,49 +8,76 @@
              d:DesignHeight="450" d:DesignWidth="800">
     <StackPanel>
         <Button Content="Dodaj nowy zestaw ćwiczeń" Margin="10" Padding="5"  HorizontalAlignment="Left" Command="{Binding OpenAddNewSetCommand}"/>
-        <ItemsControl 
-            ItemsSource="{Binding OutputList}" 
-            BorderThickness="3">
-        <ItemsControl.ItemsPanel>
-            <ItemsPanelTemplate>
-                <WrapPanel Orientation="Horizontal" />
-            </ItemsPanelTemplate>
-        </ItemsControl.ItemsPanel>
-        <ItemsControl.ItemTemplate>
-            <DataTemplate>
-                <StackPanel Background="White"
-                            Margin="10"
-                            >
-                    <TextBlock 
-                        Text="{Binding ExerciseSetTitle}" 
-                        Background="DarkOrange" 
-                        TextAlignment="Center" 
-                        FontSize="14" 
-                        FontWeight="SemiBold"
-                        />
-                    <ItemsControl ItemsSource="{Binding Exercises}">
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate>
+        <ItemsControl
+            x:Name="RootItemsControl"
+            ItemsSource="{Binding OutputList}">
+
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <WrapPanel
+                        Orientation="Horizontal"/>
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <Border
+                        BorderBrush="Gray" 
+                        BorderThickness="1" 
+                        CornerRadius="5" 
+                        Background="#F5F5F5"
+                        Margin="10" 
+                        Padding="15" 
+                        Width="200" 
+                        MinHeight="50"
+                        VerticalAlignment="Top">
+                        <StackPanel>
+                            <Grid
+                                Margin="0,0,0,10">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
                                 <TextBlock
-                                    Padding="10, 0, 10, 0"
-                                    VerticalAlignment="Top"
-                                    Text="{Binding ExerciseName}"/>
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ItemsControl>
-                        <Border
-                            BorderBrush="Black"
-                            BorderThickness="1">
-                        <StackPanel
-                            Orientation="Horizontal"
-                            HorizontalAlignment="Center">
-                            <Button Content="Edytuj"></Button>
-                            <Button Content="Usuń"></Button>
+                                    Grid.Column="0"
+                                    HorizontalAlignment="Center"
+                                    FontSize="16"
+                                    TextTrimming="CharacterEllipsis"
+                                    FontWeight="Bold"
+                                    Text="{Binding ExerciseSetTitle}"/>
+                                <StackPanel Grid.Column="1" Orientation="Horizontal" Margin="5,0,0,0">
+                                    <!-- Przycisk Edycji (Ołówek) -->
+                                    <Button Margin="0,0,4,0" Padding="5,2" Background="Transparent" BorderBrush="Transparent"
+                                    Command="{Binding DataContext.EditCommand, ElementName=RootItemsControl}"
+                                    CommandParameter="{Binding}">
+                                        <TextBlock Text="&#xE70F;" FontFamily="Segoe MDL2 Assets" FontSize="14" Foreground="#007ACC"/>
+                                    </Button>
+
+                                    <!-- Przycisk Usuwania (Kosz) -->
+                                    <Button Padding="5,2" Background="Transparent" BorderBrush="Transparent"
+                                    Command="{Binding DataContext.RemoveCommand, ElementName=RootItemsControl}"
+                                    CommandParameter="{Binding}">
+                                        <TextBlock Text="&#xE74D;" FontFamily="Segoe MDL2 Assets" FontSize="14" Foreground="#E81123"/>
+                                    </Button>
+                                </StackPanel>
+                            </Grid>
+                            <Separator Margin="0,0,0,10" Background="LightGray"/>
+                            <ItemsControl ItemsSource="{Binding Exercises}">
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <TextBlock
+                                            Margin="0,2"
+                                            Foreground="#333333"
+                                            Text="{Binding ExerciseName}"/>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
                         </StackPanel>
-                        </Border>
-                    </StackPanel>
-            </DataTemplate>
-        </ItemsControl.ItemTemplate>
-    </ItemsControl>
+                    </Border>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+
+        </ItemsControl>
+        
     </StackPanel>
 </UserControl>

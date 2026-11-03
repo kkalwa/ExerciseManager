@@ -5,6 +5,7 @@ using ExerciseManager.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Windows;
 using System.Windows.Input;
 
 namespace ExerciseManager.ViewModels
@@ -42,6 +43,8 @@ namespace ExerciseManager.ViewModels
         }
 
         public ICommand OpenAddNewSetCommand { get; set; }
+        public ICommand EditCommand { get; set; }
+        public ICommand RemoveCommand { get; set; }
 
         private IDBRepository DBRepository { get; set; }
 
@@ -49,6 +52,8 @@ namespace ExerciseManager.ViewModels
         {
             DBRepository = new DBRepository();
             OpenAddNewSetCommand = new RelayCommand<object>( (o) => { viewMediator.ViewModelParent.ChangeChildViewModel("CreateNewSetViewModel"); });
+            EditCommand = new RelayCommand<ExerciseSetModel>(edit);
+            RemoveCommand = new RelayCommand<ExerciseSetModel>(remove);
             List<ManageExercisesModel> list = DBRepository.GetExercisesBasedOnUserId(viewMediator.CurrentUser.Id);
             List<string> listOfSetIds = DBRepository.GetDistinctIdSetsForUser(viewMediator.CurrentUser.Id);
             List<ExerciseSetModel> listOfExerciseSets = new();
@@ -77,6 +82,20 @@ namespace ExerciseManager.ViewModels
             }
 
             OutputList = listOfExerciseSets;
+        }
+
+        private void remove(ExerciseSetModel model)
+        {
+            MessageBoxResult result = MessageBox.Show("Czy na pewno chcesz usunąć ten zestaw ćwiczeń?", "Potwierdzenie usunięcia", MessageBoxButton.YesNo, MessageBoxImage.Warning);
+            if(result == MessageBoxResult.Yes)
+            {
+                OutputList.Remove(model);
+            }
+        }
+
+        private void edit(ExerciseSetModel model)
+        {
+            throw new NotImplementedException();
         }
     }
 }
