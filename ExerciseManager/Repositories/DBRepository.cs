@@ -264,5 +264,20 @@ namespace ExerciseManager.Repositories
             }
             return exercise ?? throw new NullReferenceException("Exercise not found");
         }
+
+        public void RemoveExerciseSetById(string id)
+        {
+            using (var connection = GetConnection())
+            {
+                connection.Open();
+                using (var command = new SqlCommand())
+                {
+                    command.Connection = connection;
+                    command.CommandText = "DELETE FROM dbo.ExerciseSet WHERE Id_ExerciseSet = @id_exercise_set";
+                    command.Parameters.Add("@id_exercise_set", SqlDbType.Int).Value = Int32.Parse(id);
+                    command.ExecuteNonQuery();
+                }
+            }
+        }
     }
 }

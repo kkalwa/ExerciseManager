@@ -124,13 +124,16 @@ namespace ExerciseManager.ViewModels
                     break;
                 case "CurrentTrainingViewModel":
                     CurrentUserControl = new CurrentTrainingViewModel(viewMediator);
-                break;
+                    break;
                 case "ManageCurrentTrainingViewModel":
                     CurrentUserControl = new ManageCurrentTrainingViewModel(viewMediator);
-                break;
-                    case "History":
+                    break;
+                case "History":
                     CurrentUserControl = new HistoryViewModel(viewMediator); 
-                break;
+                    break;
+                case "EditExerciseSetViewModel":
+                    CurrentUserControl = new EditExerciseSetViewModel(viewMediator);
+                    break;
             }
         }
 

@@ -9,9 +9,9 @@ namespace ExerciseManager.Models
 {
     public class ExerciseSetModel
     {
-        public string IdExerciseSet { get; set; }
-        public string IdUser { get; set; }
-        public string ExerciseSetTitle { get; set; }
+        public string? IdExerciseSet { get; set; }
+        public string? IdUser { get; set; }
+        public string? ExerciseSetTitle { get; set; }
         public ObservableCollection<ExerciseModel> Exercises { get; set; } = new ObservableCollection<ExerciseModel>();
         public override string ToString()
         {

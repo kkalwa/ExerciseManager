@@ -4,6 +4,7 @@ using ExerciseManager.Models;
 using ExerciseManager.Repositories;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Text;
 using System.Windows;
 using System.Windows.Input;
@@ -32,9 +33,9 @@ namespace ExerciseManager.ViewModels
             }
         }
 
-        private List<ExerciseSetModel> outputList;
+        private ObservableCollection<ExerciseSetModel> outputList;
 
-        public List<ExerciseSetModel> OutputList 
+        public ObservableCollection<ExerciseSetModel> OutputList 
         {
             get { return outputList; }
             set { outputList = value; 
@@ -46,7 +47,7 @@ namespace ExerciseManager.ViewModels
         public ICommand EditCommand { get; set; }
         public ICommand RemoveCommand { get; set; }
 
-        private IDBRepository DBRepository { get; set; }
+        private DBRepository DBRepository { get; set; }
 
         public ManageExercisesViewModel(ViewMediator viewMediator): base(viewMediator)
         {
@@ -72,7 +73,7 @@ namespace ExerciseManager.ViewModels
                             IdExercise = element2.IdExercise,
                             ExerciseName = element2.ExerciseName,
                             IdExerciseSet = element2.IdExerciseSet,
-                            
+                            exerciseWeights = new ObservableCollection<MutableStringValue>(element2.ExerciseWeights)
                         });
                         newEntry.ExerciseSetTitle = element2.ExerciseSetTitle;
                     }
@@ -81,7 +82,7 @@ namespace ExerciseManager.ViewModels
                 listOfExerciseSets.Add(newEntry);
             }
 
-            OutputList = listOfExerciseSets;
+            OutputList = new ObservableCollection<ExerciseSetModel>(listOfExerciseSets);
         }
 
         private void remove(ExerciseSetModel model)
@@ -89,13 +90,15 @@ namespace ExerciseManager.ViewModels
             MessageBoxResult result = MessageBox.Show("Czy na pewno chcesz usunąć ten zestaw ćwiczeń?", "Potwierdzenie usunięcia", MessageBoxButton.YesNo, MessageBoxImage.Warning);
             if(result == MessageBoxResult.Yes)
             {
+                DBRepository.RemoveExerciseSetById(model.IdExerciseSet);
                 OutputList.Remove(model);
             }
         }
 
         private void edit(ExerciseSetModel model)
         {
-            throw new NotImplementedException();
+            viewMediator.StoreData(EditExerciseSetViewModel.TRANSFER_KEY, model);
+            viewMediator.ViewModelParent.ChangeChildViewModel("EditExerciseSetViewModel");
         }
     }
 }

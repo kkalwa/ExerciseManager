@@ -63,6 +63,9 @@
                 <DataTemplate DataType="{x:Type viewmodels:ManageCurrentTrainingViewModel}">
                     <local:ManageCurrentTrainingView/>
                 </DataTemplate>
+                <DataTemplate DataType="{x:Type viewmodels:EditExerciseSetViewModel}">
+                    <local:EditExerciseSetView/>
+                </DataTemplate>
             </ContentControl.Resources>
         </ContentControl>
         <StackPanel 
