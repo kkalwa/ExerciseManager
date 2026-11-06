@@ -8,6 +8,13 @@ namespace ExerciseManager.Models
     {
         public List<string> ExerciseIdsToDelete { get; } = [];
         public List<ExerciseModel> ExercisesToAdd { get; } = [];
-        public List<ExerciseModel> ExercisesToEdit { get; } = [];
+        public List<ExerciseModel> ExercisesToUpdate { get; } = [];
+        public string? IdExerciseSet { get; set; } 
+        public string? ExerciseSetName { get; set; }
+
+        public bool HasChanges()
+        {
+            return ExerciseIdsToDelete.Count > 0 || ExercisesToAdd.Count > 0 || ExercisesToUpdate.Count > 0;
+        }
     }
 }

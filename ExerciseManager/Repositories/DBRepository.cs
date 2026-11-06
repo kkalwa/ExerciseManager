@@ -77,7 +77,8 @@ namespace ExerciseManager.Repositories
                         if (!reader.IsDBNull(reader.GetOrdinal("Description")))
                         {
                             newEntry.Description = new MutableStringValue(reader["Description"].ToString());
-                        }else
+                        }
+                        else
                         {
                             newEntry.Description = MutableStringValue.Empty;
                         }
@@ -181,7 +182,7 @@ namespace ExerciseManager.Repositories
                 {
                     return SQLResults.Failure;
                 }
-                
+
                 command.CommandText = "SELECT Id_ExerciseSet FROM dbo.ExerciseSet WHERE Id_user=@id_user AND Title=@title";
                 //command.Parameters.Add("@id_user", SqlDbType.Int).Value = Int32.Parse(newSet.ExerciseSetTitle);
                 //command.Parameters.Add("@title", SqlDbType.NVarChar).Value = newSet.ExerciseSetTitle;
@@ -214,17 +215,18 @@ namespace ExerciseManager.Repositories
                         command.Parameters["@weight3"].Value = Double.Parse(element.ExerciseWeights[2].Value, usCulture);
                         command.Parameters["@weight4"].Value = Double.Parse(element.ExerciseWeights[3].Value, usCulture);
                         command.Parameters["@weight5"].Value = Double.Parse(element.ExerciseWeights[4].Value, usCulture);
-                        
-                        if(command.ExecuteNonQuery() == 0)
+
+                        if (command.ExecuteNonQuery() == 0)
                         {
                             throw new InvalidProgramException();
                         }
                     }
                     transaction.Commit();
-                    
-                }catch(Exception e)
+
+                }
+                catch (Exception e)
                 {
-                    transaction.Rollback(); 
+                    transaction.Rollback();
                     return SQLResults.Failure;
                 }
                 connection.Close();
@@ -251,7 +253,7 @@ namespace ExerciseManager.Repositories
                         {
                             IdExercise = reader["Id_Exercise"].ToString(),
                             ExerciseName = reader["Exercise_Name"].ToString()
-                            
+
                         };
                         exercise.Description.Value = reader["Description"].ToString();
                         exercise.exerciseWeights[0].Value = reader["Weight1"].ToString();
@@ -276,6 +278,95 @@ namespace ExerciseManager.Repositories
                     command.CommandText = "DELETE FROM dbo.ExerciseSet WHERE Id_ExerciseSet = @id_exercise_set";
                     command.Parameters.Add("@id_exercise_set", SqlDbType.Int).Value = Int32.Parse(id);
                     command.ExecuteNonQuery();
+                }
+            }
+        }
+
+        public void UpdateExerciseSet(EditSetInfo editSetInfo)
+        {
+            if (editSetInfo.HasChanges())
+            {
+                string exerciseSetId = editSetInfo.IdExerciseSet ?? throw new InvalidOperationException("Invalid exercise set ID");
+                string exerciseSetName = editSetInfo.ExerciseSetName ?? throw new InvalidOperationException("Invalid exercise set name");
+                using (var connection = GetConnection())
+                {
+                    connection.Open();
+                    using (var transaction = connection.BeginTransaction())
+                    {
+                        string sqlUpdateExerciseSetName = "UPDATE dbo.ExerciseSet SET Title = @exercise_set_name WHERE Id_ExerciseSet = @id_exercise_set";
+                        using (var updateExerciseSetNameCommand = new SqlCommand(sqlUpdateExerciseSetName, connection, transaction))
+                        {
+                            updateExerciseSetNameCommand.Parameters.Add("@id_exercise_set", SqlDbType.Int).Value = Int32.Parse(exerciseSetId);
+                            updateExerciseSetNameCommand.Parameters.Add("@exercise_set_name", SqlDbType.VarChar).Value = exerciseSetName;
+                            updateExerciseSetNameCommand.ExecuteNonQuery();
+                        }
+                        string sqlUpdateExercise = "UPDATE dbo.Exercises SET Exercise_Name = @exercise_name, " +
+                            "Weight1 = @weight1, Weight2 = @weight2, Weight3 = @weight3, Weight4 = @weight4, Weight5 = @weight5 " +
+                            "WHERE Id_Exercise = @id_exercise";
+                        using (var updateExerciseCommand = new SqlCommand(sqlUpdateExercise, connection, transaction))
+                        {
+                            updateExerciseCommand.Parameters.Add("@id_exercise", SqlDbType.Int);
+                            updateExerciseCommand.Parameters.Add("@exercise_name", SqlDbType.VarChar);
+                            updateExerciseCommand.Parameters.Add("@weight1", SqlDbType.Real);
+                            updateExerciseCommand.Parameters.Add("@weight2", SqlDbType.Real);
+                            updateExerciseCommand.Parameters.Add("@weight3", SqlDbType.Real);
+                            updateExerciseCommand.Parameters.Add("@weight4", SqlDbType.Real);
+                            updateExerciseCommand.Parameters.Add("@weight5", SqlDbType.Real);
+                            foreach (var exercise in editSetInfo.ExercisesToUpdate)
+                            {
+                                updateExerciseCommand.Parameters["@id_exercise"].Value = Int32.Parse(exercise.IdExercise ?? throw new InvalidOperationException("Invalid exercise ID"));
+                                updateExerciseCommand.Parameters["@exercise_name"].Value = exercise.ExerciseName ?? throw new InvalidOperationException("Invalid exercise name");
+                                updateExerciseCommand.Parameters["@weight1"].Value = Double.Parse(exercise.exerciseWeights[0].Value, CultureInfo.InvariantCulture);
+                                updateExerciseCommand.Parameters["@weight2"].Value = Double.Parse(exercise.exerciseWeights[1].Value, CultureInfo.InvariantCulture);
+                                updateExerciseCommand.Parameters["@weight3"].Value = Double.Parse(exercise.exerciseWeights[2].Value, CultureInfo.InvariantCulture);
+                                updateExerciseCommand.Parameters["@weight4"].Value = Double.Parse(exercise.exerciseWeights[3].Value, CultureInfo.InvariantCulture);
+                                updateExerciseCommand.Parameters["@weight5"].Value = Double.Parse(exercise.exerciseWeights[4].Value, CultureInfo.InvariantCulture);
+                                updateExerciseCommand.ExecuteNonQuery();
+                            }
+                        }
+                        string sqlDeleteExercise = "DELETE FROM dbo.Exercises WHERE Id_Exercise = @id_exercise";
+                        using (var deleteExerciseCommand = new SqlCommand(sqlDeleteExercise, connection, transaction))
+                        {
+                            deleteExerciseCommand.Parameters.Add("@id_exercise", SqlDbType.Int);
+                            foreach (var exerciseId in editSetInfo.ExerciseIdsToDelete)
+                            {
+                                deleteExerciseCommand.Parameters["@id_exercise"].Value = Int32.Parse(exerciseId ?? throw new InvalidOperationException("Invalid exercise ID"));
+                                deleteExerciseCommand.ExecuteNonQuery();
+                            }
+                        }
+                        string sqlInsertNewExercises = "INSERT INTO dbo.Exercises (Id_ExerciseSet, Exercise_Name, Weight1, Weight2, Weight3, Weight4, Weight5) " +
+                            "VALUES (@id_exercise_set, @exercise_name, @weight1, @weight2, @weight3, @weight4, @weight5)";
+                        using (var insertNewExercisesCommand = new SqlCommand(sqlInsertNewExercises, connection, transaction))
+                        {
+                            insertNewExercisesCommand.Parameters.Add("@id_exercise_set", SqlDbType.Int);
+                            insertNewExercisesCommand.Parameters.Add("@exercise_name", SqlDbType.VarChar);
+                            insertNewExercisesCommand.Parameters.Add("@weight1", SqlDbType.Float);
+                            insertNewExercisesCommand.Parameters.Add("@weight2", SqlDbType.Float);
+                            insertNewExercisesCommand.Parameters.Add("@weight3", SqlDbType.Float);
+                            insertNewExercisesCommand.Parameters.Add("@weight4", SqlDbType.Float);
+                            insertNewExercisesCommand.Parameters.Add("@weight5", SqlDbType.Float);
+                            foreach (var exercise in editSetInfo.ExercisesToAdd)
+                            {
+                                insertNewExercisesCommand.Parameters["@id_exercise_set"].Value = Int32.Parse(exercise.IdExerciseSet ?? throw new InvalidOperationException("Invalid exercise set ID"));
+                                insertNewExercisesCommand.Parameters["@exercise_name"].Value = exercise.ExerciseName ?? throw new InvalidOperationException("Invalid exercise name");
+                                insertNewExercisesCommand.Parameters["@weight1"].Value = Double.Parse(exercise.exerciseWeights[0].Value, CultureInfo.InvariantCulture);
+                                insertNewExercisesCommand.Parameters["@weight2"].Value = Double.Parse(exercise.exerciseWeights[1].Value, CultureInfo.InvariantCulture);
+                                insertNewExercisesCommand.Parameters["@weight3"].Value = Double.Parse(exercise.exerciseWeights[2].Value, CultureInfo.InvariantCulture);
+                                insertNewExercisesCommand.Parameters["@weight4"].Value = Double.Parse(exercise.exerciseWeights[3].Value, CultureInfo.InvariantCulture);
+                                insertNewExercisesCommand.Parameters["@weight5"].Value = Double.Parse(exercise.exerciseWeights[4].Value, CultureInfo.InvariantCulture);
+                                insertNewExercisesCommand.ExecuteNonQuery();
+                            }
+                        }
+                        try
+                        {
+                            transaction.Commit();
+                        }
+                        catch (Exception ex)
+                            {
+                                transaction.Rollback();
+                                throw new InvalidOperationException("Failed to update exercise set", ex);
+                            }
+                    }
                 }
             }
         }

@@ -14,6 +14,7 @@ namespace ExerciseManager.ViewModels
         private ExerciseSetModel exerciseSetToEdit;
         private EditSetInfo editSetInfo = new();
         private IDBRepository DBRepository { get; } = new DBRepository();
+        private string? sqlError;
 
         public ExerciseSetModel ExerciseSetToEdit
         {
@@ -27,12 +28,22 @@ namespace ExerciseManager.ViewModels
 
         public ICommand RemoveExerciseCommand { get; set; }
         public ICommand AddExerciseToListCommand { get; set; }
+        public ICommand SaveChangesCommand { get; set; }
+        public string? SqlError
+        {
+            get { return sqlError; }
+            set
+            {
+                sqlError = value;
+                OnPropertyChanged();
+            }
+        }
 
         private void AddExercise(ExerciseModel model)
         {
             ExerciseModel newEntry = new ExerciseModel()
             {
-                IdExerciseSet = ExerciseSetToEdit.IdExerciseSet
+                IdExerciseSet = ExerciseSetToEdit.IdExerciseSet ?? throw new InvalidOperationException("Invalid exercise set ID"),
             };
             ExerciseSetToEdit.Exercises.Add(newEntry);
             editSetInfo.ExercisesToAdd.Add(newEntry);
@@ -54,9 +65,31 @@ namespace ExerciseManager.ViewModels
         public static string TRANSFER_KEY { get; } = "ExerciseSetToEdit";
         public EditExerciseSetViewModel(ViewMediator viewMediator) : base(viewMediator)
         {
-            ExerciseSetToEdit = (ExerciseSetModel)viewMediator.RetrieveData(TRANSFER_KEY);
+            exerciseSetToEdit = (ExerciseSetModel)viewMediator.RetrieveData(TRANSFER_KEY);
             RemoveExerciseCommand = new RelayCommand<ExerciseModel>(RemoveExercise);
             AddExerciseToListCommand = new RelayCommand<ExerciseModel>(AddExercise);
+            SaveChangesCommand = new RelayCommand<object>(SaveChanges);
+            editSetInfo.IdExerciseSet = exerciseSetToEdit.IdExerciseSet ?? throw new InvalidOperationException("Invalid exercise set ID");
+
+        }
+
+        private void SaveChanges(object obj)
+        {
+            SqlError = null;
+            editSetInfo.ExerciseSetName = exerciseSetToEdit.ExerciseSetTitle ?? throw new InvalidOperationException("Invalid exercise set name");
+            foreach (ExerciseModel exercise in ExerciseSetToEdit.Exercises)
+            {
+                if(exercise.IdExercise != string.Empty)
+                editSetInfo.ExercisesToUpdate.Add(exercise);
+            }
+            try
+            {
+                DBRepository.UpdateExerciseSet(editSetInfo);
+            }
+            catch (Exception ex)
+            {
+                SqlError = $"Error updating exercise set: {ex.Message}";
+            }
         }
     }
 }

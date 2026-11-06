@@ -13,6 +13,7 @@ namespace ExerciseManager.Models
         public List<string> GetDistinctIdSetsForUser(string id_user);
         public SQLResults InsertNewExerciseSet(ExerciseSetModel newSet);
         public ExerciseModel GetExerciseById(string ExerciseId);
+        public void UpdateExerciseSet(EditSetInfo editSetInfo);
         
         public void RemoveExerciseSetById(string id);
 

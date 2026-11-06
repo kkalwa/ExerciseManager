@@ -10,8 +10,8 @@
         <StackPanel
             HorizontalAlignment="Center"
             VerticalAlignment="Center">
-            <TextBlock
-                Text="{Binding ExerciseSetToEdit.ExerciseSetTitle}"/>
+            <TextBox
+                Text="{Binding ExerciseSetToEdit.ExerciseSetTitle, UpdateSourceTrigger=PropertyChanged}"/>
             <DataGrid 
             Margin="10,10,10,0"
             AutoGenerateColumns="False"
@@ -74,7 +74,12 @@
                 HorizontalAlignment="Center"
                 VerticalAlignment="Center"
                 Command="{Binding AddExerciseToListCommand}"/>
-            
+            <Button
+                Content="Zatwierdź"
+                Command="{Binding SaveChangesCommand}"/>
+            <TextBlock
+                Text="{Binding SqlError}"
+                Foreground="Red"/>
         </StackPanel>
     </Grid>
 </UserControl>
